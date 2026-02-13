@@ -1,0 +1,17 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-voice",
+      "description": "Abstract sound waves and neural networks",
+      "imageUrl": "https://picsum.photos/seed/echolyze-hero/1200/800",
+      "imageHint": "voice waveform"
+    },
+    {
+      "id": "api-docs",
+      "description": "Clean code editor with API response",
+      "imageUrl": "https://picsum.photos/seed/echolyze-docs/800/600",
+      "imageHint": "programming code"
+    }
+  ]
+}
