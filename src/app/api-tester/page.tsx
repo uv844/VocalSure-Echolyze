@@ -11,7 +11,6 @@ import {
   Bot,
   User,
   Key,
-  Code,
   Eye,
   EyeOff
 } from 'lucide-react';
