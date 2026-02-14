@@ -6,7 +6,8 @@ import {
   Loader2, 
   Globe,
   Mic,
-  FileAudio
+  FileAudio,
+  Code
 } from 'lucide-react';
 import { 
   Card, 
@@ -26,6 +27,7 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const LANGUAGES = [
   { id: 'en', name: 'English', flag: '🇺🇸' },
@@ -131,9 +133,18 @@ export default function DetectorPage() {
           <Card>
             <CardHeader>
               <CardTitle>Audio Analysis</CardTitle>
-              <CardDescription>Upload audio for classification</CardDescription>
+              <CardDescription>Upload audio for classification via API</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              <Alert className="bg-primary/5 border-primary/20">
+                <Code className="h-4 w-4" />
+                <AlertTitle>API Integration</AlertTitle>
+                <AlertDescription className="text-xs">
+                  This tester uses <code>POST /api/analyze</code>. <br/>
+                  Key: <code>echolyze_hackathon_2026</code>
+                </AlertDescription>
+              </Alert>
+
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
                   <Globe className="h-3 w-3" /> Language

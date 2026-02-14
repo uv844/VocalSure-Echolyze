@@ -1,12 +1,9 @@
 import { 
   Terminal, 
   Lock, 
-  Code, 
-  Layers, 
-  ShieldCheck, 
   Webhook, 
   FileJson, 
-  ArrowRight,
+  ShieldCheck, 
   Info
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -71,13 +68,13 @@ export default function DocsPage() {
               <CardContent className="p-6">
                 <p className="mb-4">All API requests must include the <code className="bg-white/10 px-2 py-1 rounded">x-api-key</code> header for validation.</p>
                 <div className="flex items-center justify-between bg-black/20 p-4 rounded-lg font-code text-accent-foreground select-all">
-                  <span>x-api-key: YOUR_API_KEY</span>
+                  <span>x-api-key: [YOUR_API_KEY]</span>
                 </div>
               </CardContent>
             </Card>
             <div className="bg-secondary/30 p-4 rounded-xl border flex gap-4">
               <ShieldCheck className="h-6 w-6 text-primary flex-shrink-0" />
-              <p className="text-sm">Never expose your API key in client-side code. Use a secure server-side environment to make requests to our endpoints.</p>
+              <p className="text-sm">The default API key for the hackathon is <code>echolyze_hackathon_2026</code>. Never expose this key in client-side code.</p>
             </div>
           </section>
 
@@ -116,9 +113,9 @@ export default function DocsPage() {
                     <TabsContent value="curl" className="mt-4">
                       <div className="bg-black/90 rounded-xl p-6 font-code text-sm text-blue-300 overflow-x-auto">
                         <pre>
-{`curl -X POST https://api.echolyze.pro/api/analyze \\
+{`curl -X POST https://YOUR_DOMAIN/api/analyze \\
   -H "Content-Type: application/json" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+  -H "x-api-key: echolyze_hackathon_2026" \\
   -d '{
     "audioDataUri": "data:audio/mp3;base64,TU9ZT..."
   }'`}
@@ -128,11 +125,11 @@ export default function DocsPage() {
                     <TabsContent value="node" className="mt-4">
                       <div className="bg-black/90 rounded-xl p-6 font-code text-sm text-blue-300 overflow-x-auto">
                         <pre>
-{`const response = await fetch('https://api.echolyze.pro/api/analyze', {
+{`const response = await fetch('https://YOUR_DOMAIN/api/analyze', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'x-api-key': 'YOUR_API_KEY'
+    'x-api-key': 'echolyze_hackathon_2026'
   },
   body: JSON.stringify({
     audioDataUri: 'data:audio/mp3;base64,...'
@@ -147,9 +144,9 @@ const data = await response.json();`}
                         <pre>
 {`import requests
 
-url = "https://api.echolyze.pro/api/analyze"
+url = "https://YOUR_DOMAIN/api/analyze"
 headers = {
-    "x-api-key": "YOUR_API_KEY",
+    "x-api-key": "echolyze_hackathon_2026",
     "Content-Type": "application/json"
 }
 payload = {
