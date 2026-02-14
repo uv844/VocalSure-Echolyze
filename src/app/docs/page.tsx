@@ -40,7 +40,7 @@ export default function DocsPage() {
             <CardContent className="p-6">
               <p className="mb-4 text-center opacity-90 text-sm">All API requests must include the <code className="bg-white/10 px-2 py-1 rounded">x-api-key</code> header for validation.</p>
               <div className="flex items-center justify-center bg-black/20 p-4 rounded-lg font-code text-accent-foreground select-all text-sm">
-                <span>x-api-key: echolyze_hackathon_2026</span>
+                <span>x-api-key: echolyze_key_2026</span>
               </div>
             </CardContent>
           </Card>

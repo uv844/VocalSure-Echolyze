@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { classifyVoiceOrigin } from '@/ai/flows/voice-origin-classification';
 import { detectAudioLanguage } from '@/ai/flows/automated-language-detection-for-analysis';
 
-const EXPECTED_API_KEY = 'echolyze_hackathon_2026';
+const EXPECTED_API_KEY = 'echolyze_key_2026';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const apiKey = req.headers.get('x-api-key');
     if (apiKey !== EXPECTED_API_KEY) {
       return NextResponse.json(
-        { error: 'Unauthorized: Invalid or missing x-api-key header. Use echolyze_hackathon_2026' },
+        { error: 'Unauthorized: Invalid or missing x-api-key header. Use echolyze_key_2026' },
         { status: 401 }
       );
     }
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       throw new Error('Language detection failed to return a result.');
     }
 
-    // 4. Combine results (Aligned with simplified Documentation schema)
+    // 4. Combine results
     const combinedResponse = {
       origin: originResult.origin,
       confidence: originResult.confidence,
