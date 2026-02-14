@@ -23,11 +23,11 @@ export default function Navigation() {
             <Shield className="h-7 w-7 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-headline text-2xl font-bold tracking-tighter text-foreground leading-none">
+            <span className="font-body text-xl font-bold tracking-tight text-foreground leading-none">
               AI Voice Detector
             </span>
-            <span className="text-[11px] text-muted-foreground uppercase tracking-[0.3em] font-bold">
-              Echolyze API
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium mt-1">
+              Powered by Echolyze
             </span>
           </div>
         </Link>

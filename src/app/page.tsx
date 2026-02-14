@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity, Cpu } from 'lucide-react';
 import AudioVisualizer from '@/components/AudioVisualizer';
-import { Badge } from '@/components/ui/badge';
 
 const SUPPORTED_LANGUAGES = [
   { name: 'English', native: 'English', flag: '🌐' },
