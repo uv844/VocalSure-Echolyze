@@ -23,11 +23,11 @@ export default function DocsPage() {
   const docsImage = PlaceHolderImages.find(img => img.id === 'api-docs');
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
+    <div className="container mx-auto px-4 pt-32 pb-12 max-w-5xl">
       <div className="grid lg:grid-cols-4 gap-12">
         {/* Sidebar Nav (Desktop) */}
         <aside className="hidden lg:block space-y-8">
-          <div className="space-y-4 sticky top-24">
+          <div className="space-y-4 sticky top-32">
             <h3 className="font-bold text-sm uppercase tracking-widest text-muted-foreground">API Reference</h3>
             <nav className="flex flex-col gap-2">
               <a href="#introduction" className="text-sm font-medium hover:text-accent transition-colors py-1">Introduction</a>
@@ -177,7 +177,6 @@ print(response.json())`}
   "confidence": 0.995,              // Float 0 to 1
   "explanation": "...",             // Classification reasoning
   "detectedLanguage": "Spanish",    // Primary detected language
-  "languageConfidence": 0.88,       // Language detection confidence
   "languageMatchVerdict": "...",    // Result of comparison if provided
   "analysisGuidance": "...",        // Tech insights
   "timestamp": "2026-05-15T..."     // ISO String

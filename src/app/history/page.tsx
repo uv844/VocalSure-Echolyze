@@ -49,7 +49,7 @@ export default function HistoryPage() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
+    <div className="container mx-auto px-4 pt-32 pb-12 max-w-6xl">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <div className="space-y-2">
           <h1 className="text-4xl font-headline font-bold text-primary flex items-center gap-3">

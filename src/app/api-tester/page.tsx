@@ -193,7 +193,7 @@ export default function DetectorPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
+    <div className="container mx-auto px-4 pt-32 pb-12 max-w-5xl">
       <div className="grid lg:grid-cols-2 gap-8">
         <div className="space-y-6">
           <Card>
