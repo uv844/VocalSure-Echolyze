@@ -1,27 +1,26 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
 import { 
-  Mic, 
   Upload, 
-  ChevronDown, 
   Loader2, 
-  AlertCircle, 
-  CheckCircle2, 
   ShieldAlert,
-  Info,
-  History as HistoryIcon
+  CheckCircle2,
+  Lock,
+  Globe,
+  Mic,
+  FileAudio
 } from 'lucide-react';
 import { 
   Card, 
   CardContent, 
   CardHeader, 
   CardTitle, 
-  CardDescription, 
-  CardFooter 
+  CardDescription 
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   Select, 
   SelectContent, 
@@ -35,42 +34,38 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 const LANGUAGES = [
-  { id: 'en', name: 'English', native: 'English', flag: '🇺🇸' },
-  { id: 'es', name: 'Spanish', native: 'Español', flag: '🇪🇸' },
-  { id: 'fr', name: 'French', native: 'Français', flag: '🇫🇷' },
-  { id: 'de', name: 'German', native: 'Deutsch', flag: '🇩🇪' },
-  { id: 'it', name: 'Italian', native: 'Italiano', flag: '🇮🇹' },
-  { id: 'pt', name: 'Portuguese', native: 'Português', flag: '🇵🇹' },
-  { id: 'ja', name: 'Japanese', native: '日本語', flag: '🇯🇵' },
-  { id: 'zh', name: 'Chinese', native: '中文', flag: '🇨🇳' },
+  { id: 'en', name: 'English', flag: '🇺🇸' },
+  { id: 'ta', name: 'Tamil', flag: '🇮🇳' },
+  { id: 'es', name: 'Spanish', flag: '🇪🇸' },
+  { id: 'fr', name: 'French', flag: '🇫🇷' },
+  { id: 'de', name: 'German', flag: '🇩🇪' },
+  { id: 'it', name: 'Italian', flag: '🇮🇹' },
+  { id: 'pt', name: 'Portuguese', flag: '🇵🇹' },
 ];
 
-export default function ApiTester() {
+export default function DetectorPage() {
   const [file, setFile] = useState<File | null>(null);
+  const [base64Input, setBase64Input] = useState('');
+  const [apiKey, setApiKey] = useState('AIzaSyCpY-y1ikZ6nJXYtx0jbDcSZIGKB4rG4Ng');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [selectedLang, setSelectedLang] = useState<string>('English');
-  const [refId, setRefId] = useState<string>('');
+  const [selectedLang, setSelectedLang] = useState<string>('Tamil');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-
-  useEffect(() => {
-    // Generate a reference ID only on the client to avoid hydration mismatch
-    setRefId(Math.random().toString(36).substring(2, 10).toUpperCase());
-  }, [result]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.type !== 'audio/mpeg' && !selectedFile.name.endsWith('.mp3')) {
+      if (!selectedFile.type.includes('audio') && !selectedFile.name.endsWith('.mp3')) {
         toast({
           title: "Invalid file type",
-          description: "Please upload an MP3 file.",
+          description: "Please upload an audio file (MP3/WAV).",
           variant: "destructive"
         });
         return;
       }
       setFile(selectedFile);
+      setBase64Input('');
       setResult(null);
     }
   };
@@ -85,21 +80,29 @@ export default function ApiTester() {
   };
 
   const handleAnalyze = async () => {
-    if (!file) return;
+    if (!file && !base64Input) {
+      toast({
+        title: "Input Required",
+        description: "Please upload a file or paste base64 data.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     setLoading(true);
     setResult(null);
 
     try {
-      const base64 = await fileToBase64(file);
+      const audioDataUri = file ? await fileToBase64(file) : base64Input;
+      
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'echolyze_hackathon_2026'
+          'x-api-key': 'echolyze_hackathon_2026' // Internal gateway key
         },
         body: JSON.stringify({
-          audioDataUri: base64,
+          audioDataUri,
           userSelectedLanguage: selectedLang
         })
       });
@@ -115,7 +118,7 @@ export default function ApiTester() {
       const history = JSON.parse(localStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
-        fileName: file.name,
+        fileName: file ? file.name : 'Base64 Input',
         timestamp: new Date().toISOString(),
         ...data
       };
@@ -133,185 +136,175 @@ export default function ApiTester() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-5xl">
-      <div className="flex flex-col gap-8">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-headline font-bold text-primary">Interactive API Tester</h1>
-          <p className="text-muted-foreground text-lg">Test our classification engine with your own audio samples.</p>
+    <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <div className="grid lg:grid-cols-2 gap-8">
+        {/* Left Column: Analysis Input */}
+        <div className="space-y-6">
+          <Card className="bg-secondary/20 border-border/50">
+            <CardHeader>
+              <CardTitle className="text-2xl font-headline font-bold">Analyze Voice</CardTitle>
+              <CardDescription>Upload an MP3 or paste base64-encoded audio</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* API Key */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
+                  <Lock className="h-3 w-3" /> API Key
+                </label>
+                <Input 
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder="Enter your Gemini API key"
+                  className="bg-background/50 border-border/50 h-11"
+                />
+              </div>
+
+              {/* Language */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
+                  <Globe className="h-3 w-3" /> Language
+                </label>
+                <Select value={selectedLang} onValueChange={setSelectedLang}>
+                  <SelectTrigger className="bg-background/50 border-border/50 h-11">
+                    <SelectValue placeholder="Select language" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LANGUAGES.map((lang) => (
+                      <SelectItem key={lang.id} value={lang.name}>
+                        <span className="flex items-center gap-2">
+                          <span className="text-xs">{lang.flag}</span>
+                          <span>{lang.name}</span>
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* File Upload */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
+                  <FileAudio className="h-3 w-3" /> Upload MP3
+                </label>
+                <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  className={cn(
+                    "border-2 border-dashed rounded-xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all hover:border-primary/50 hover:bg-primary/5",
+                    file ? "border-primary bg-primary/5" : "border-border/50"
+                  )}
+                >
+                  <Upload className={cn("h-10 w-10 mb-4", file ? "text-primary" : "text-muted-foreground")} />
+                  {file ? (
+                    <div className="text-center">
+                      <p className="font-bold text-foreground">{file.name}</p>
+                      <p className="text-xs text-muted-foreground">{(file.size / 1024).toFixed(1)} KB</p>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-medium">Click to upload MP3 file</p>
+                  )}
+                  <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
+                </div>
+              </div>
+
+              {/* Base64 Input */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-muted-foreground uppercase">Or paste Base64</label>
+                <Textarea 
+                  value={base64Input}
+                  onChange={(e) => {
+                    setBase64Input(e.target.value);
+                    if (e.target.value) setFile(null);
+                  }}
+                  placeholder="Paste audio base64 data here..."
+                  className="bg-background/50 border-border/50 font-mono text-xs h-24"
+                />
+              </div>
+
+              <Button 
+                onClick={handleAnalyze}
+                disabled={loading || (!file && !base64Input)}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold h-12 rounded-xl transition-all shadow-lg shadow-emerald-500/20"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Detecting Voice...
+                  </>
+                ) : (
+                  <><Mic className="mr-2 h-5 w-5" /> Detect Voice</>
+                )}
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2 flex flex-col gap-6">
-            <Card className="border-2 border-dashed border-primary/20 bg-secondary/30">
-              <CardContent className="pt-8 flex flex-col items-center text-center">
-                <div 
-                  className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 cursor-pointer hover:bg-primary/20 transition-colors"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <Upload className="h-10 w-10 text-primary" />
+        {/* Right Column: Results */}
+        <div className="space-y-6">
+          <Card className="bg-secondary/10 border-border/50 h-full flex flex-col">
+            <CardHeader>
+              <CardTitle className="text-2xl font-headline font-bold">Detection Result</CardTitle>
+              <CardDescription>Analysis output will appear here</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 space-y-8 flex flex-col justify-center py-12">
+              {!result && !loading ? (
+                <div className="text-center py-20 opacity-30">
+                  <ShieldAlert className="h-16 w-16 mx-auto mb-4" />
+                  <p className="font-medium">Waiting for input analysis...</p>
                 </div>
-                <h3 className="font-headline font-bold text-lg mb-2">Upload Audio Sample</h3>
-                <p className="text-sm text-muted-foreground mb-6 px-4">
-                  Drop your MP3 file here or click to browse. Max size 5MB.
-                </p>
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  onChange={handleFileChange} 
-                  accept="audio/mpeg" 
-                  className="hidden" 
-                />
-                {file ? (
-                  <div className="bg-white border rounded-lg p-3 w-full flex items-center gap-3">
-                    <Mic className="h-5 w-5 text-accent" />
-                    <div className="flex-1 text-left overflow-hidden">
-                      <p className="text-sm font-bold truncate">{file.name}</p>
-                      <p className="text-[10px] text-muted-foreground">{(file.size / 1024).toFixed(1)} KB</p>
-                    </div>
-                    <Button variant="ghost" size="sm" onClick={() => setFile(null)}>Remove</Button>
+              ) : loading ? (
+                <div className="text-center space-y-6">
+                  <div className="relative w-24 h-24 mx-auto">
+                    <div className="absolute inset-0 border-4 border-primary/20 rounded-full" />
+                    <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin" />
                   </div>
-                ) : (
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-primary/20"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    Select File
-                  </Button>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Analysis Configuration</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-muted-foreground uppercase">Expected Language</label>
-                  <Select value={selectedLang} onValueChange={setSelectedLang}>
-                    <SelectTrigger className="w-full bg-secondary/50">
-                      <SelectValue placeholder="Select language" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {LANGUAGES.map((lang) => (
-                        <SelectItem key={lang.id} value={lang.name}>
-                          <span className="flex items-center gap-2">
-                            <span>{lang.flag}</span>
-                            <span>{lang.native}</span>
-                            <span className="text-muted-foreground text-xs">({lang.name})</span>
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold">Scanning Spectral Patterns</h3>
+                    <p className="text-sm text-muted-foreground">Isolating synthetic artifacts and neural frequencies...</p>
+                  </div>
                 </div>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  disabled={!file || loading} 
-                  className="w-full bg-accent text-accent-foreground font-bold h-12 text-lg hover:shadow-lg hover:shadow-accent/20 transition-all"
-                  onClick={handleAnalyze}
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Analyzing...
-                    </>
-                  ) : (
-                    <>Run Full Analysis</>
-                  )}
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-
-          <div className="lg:col-span-3">
-            {!result && !loading ? (
-              <div className="h-full border-2 border-dashed rounded-3xl flex flex-col items-center justify-center p-12 text-center text-muted-foreground bg-white/50">
-                <Info className="h-12 w-12 mb-4 opacity-20" />
-                <p>Upload an audio file and click Analyze to see the forensic breakdown.</p>
-              </div>
-            ) : loading ? (
-              <div className="h-full bg-card border rounded-3xl p-12 flex flex-col items-center justify-center animate-pulse">
-                <div className="w-24 h-24 rounded-full border-4 border-accent border-t-transparent animate-spin mb-8" />
-                <h3 className="text-2xl font-headline font-bold text-primary mb-2">Analyzing Voice Origin</h3>
-                <p className="text-muted-foreground">Scanning spectral markers and linguistic patterns...</p>
-                <div className="w-full max-w-xs mt-8">
-                  <Progress value={45} className="h-2" />
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <Card className={cn(
-                  "overflow-hidden border-t-4",
-                  result.origin === 'HUMAN' ? "border-t-green-500" : "border-t-red-500"
-                )}>
-                  <CardHeader className="bg-secondary/20 pb-8">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <Badge variant="outline" className="mb-2 bg-white">{result.origin === 'HUMAN' ? 'Authentic Speech' : 'Synthetic Detection'}</Badge>
-                        <CardTitle className="text-4xl font-headline font-bold flex items-center gap-3">
-                          {result.origin === 'HUMAN' ? (
-                            <><CheckCircle2 className="text-green-500 h-10 w-10" /> Authentic Human</>
-                          ) : (
-                            <><ShieldAlert className="text-red-500 h-10 w-10" /> AI Generated</>
-                          )}
-                        </CardTitle>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-xs font-bold text-muted-foreground uppercase mb-1">Confidence</div>
-                        <div className="text-3xl font-headline font-bold text-primary">{(result.confidence * 100).toFixed(1)}%</div>
-                      </div>
+              ) : (
+                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="flex flex-col items-center gap-6">
+                    <div className={cn(
+                      "flex items-center gap-3 px-8 py-4 rounded-xl border-2 font-bold text-lg",
+                      result.origin === 'AI_GENERATED' 
+                        ? "border-destructive/30 bg-destructive/10 text-destructive" 
+                        : "border-emerald-500/30 bg-emerald-500/10 text-emerald-500"
+                    )}>
+                      {result.origin === 'AI_GENERATED' ? (
+                        <><ShieldAlert className="h-6 w-6" /> AI Generated</>
+                      ) : (
+                        <><CheckCircle2 className="h-6 w-6" /> Human Voice</>
+                      )}
                     </div>
-                  </CardHeader>
-                  <CardContent className="pt-8 space-y-8">
-                    <div className="p-4 bg-primary/5 rounded-xl border border-primary/10">
-                      <h4 className="text-sm font-bold text-primary uppercase mb-2">Forensic Explanation</h4>
-                      <p className="text-lg leading-relaxed text-muted-foreground">
+
+                    <div className="w-full space-y-2">
+                      <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                        <span>Confidence</span>
+                        <span>{(result.confidence * 100).toFixed(0)}%</span>
+                      </div>
+                      <Progress value={result.confidence * 100} className="h-3 bg-secondary" />
+                    </div>
+                  </div>
+
+                  <div className="grid gap-4">
+                    <div className="flex items-center justify-between border-b border-border/50 pb-2">
+                      <span className="text-sm font-medium text-muted-foreground">Language</span>
+                      <span className="text-sm font-bold uppercase">{result.detectedLanguage || selectedLang}</span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <span className="text-sm font-medium text-muted-foreground">Explanation</span>
+                      <p className="text-sm leading-relaxed text-foreground/80 bg-secondary/30 p-4 rounded-lg border border-border/50">
                         {result.explanation}
                       </p>
                     </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <h4 className="text-xs font-bold text-muted-foreground uppercase border-b pb-2">Language Context</h4>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Detected Language</span>
-                          <Badge variant="secondary" className="px-3 py-1 font-bold">{result.detectedLanguage}</Badge>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Language Match</span>
-                          {result.languageMatchVerdict?.toLowerCase().includes('matches') ? (
-                            <span className="text-green-600 flex items-center gap-1 text-sm font-bold">
-                              <CheckCircle2 className="h-4 w-4" /> Match
-                            </span>
-                          ) : (
-                            <span className="text-yellow-600 flex items-center gap-1 text-sm font-bold">
-                              <AlertCircle className="h-4 w-4" /> Discrepancy
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        <h4 className="text-xs font-bold text-muted-foreground uppercase border-b pb-2">Technical Insight</h4>
-                        <p className="text-xs italic text-muted-foreground leading-relaxed">
-                          {result.analysisGuidance}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="bg-secondary/10 py-4 flex justify-between border-t">
-                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Reference ID: {refId || 'PENDING'}</span>
-                    <button className="text-xs font-bold text-primary hover:text-accent transition-colors flex items-center gap-1">
-                      Download Report PDF
-                    </button>
-                  </CardFooter>
-                </Card>
-              </div>
-            )}
-          </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

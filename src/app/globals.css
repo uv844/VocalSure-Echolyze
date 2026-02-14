@@ -1,51 +1,29 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 91%; /* #E8E8E8 */
-    --foreground: 238 52% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 238 52% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 238 52% 10%;
-    --primary: 238 52% 38%; /* #2E3192 */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 238 10% 85%;
-    --secondary-foreground: 238 52% 20%;
-    --muted: 238 10% 85%;
-    --muted-foreground: 238 20% 40%;
-    --accent: 25 100% 50%; /* #FF6B00 */
-    --accent-foreground: 0 0% 100%;
+    --background: 222 47% 4%; /* Near black */
+    --foreground: 210 40% 98%;
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 161 84% 39%; /* Emerald 500ish */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217 33% 12%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 161 84% 39%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 238 20% 80%;
-    --input: 238 20% 85%;
-    --ring: 238 52% 38%;
-    --radius: 0.75rem;
-  }
-  .dark {
-    --background: 238 52% 5%;
-    --foreground: 0 0% 98%;
-    --card: 238 52% 8%;
-    --card-foreground: 0 0% 98%;
-    --popover: 238 52% 8%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 25 100% 50%;
-    --primary-foreground: 238 52% 5%;
-    --secondary: 238 52% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 238 52% 15%;
-    --muted-foreground: 238 10% 70%;
-    --accent: 238 52% 38%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 238 52% 20%;
-    --input: 238 52% 20%;
-    --ring: 25 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 15%;
+    --input: 217 33% 15%;
+    --ring: 161 84% 39%;
+    --radius: 0.5rem;
   }
 }
 
