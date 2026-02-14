@@ -28,18 +28,18 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 const LANGUAGES = [
-  { id: 'en', name: 'English', flag: '🇺🇸' },
-  { id: 'ta', name: 'Tamil', flag: '🇮🇳' },
-  { id: 'es', name: 'Spanish', flag: '🇪🇸' },
-  { id: 'fr', name: 'French', flag: '🇫🇷' },
-  { id: 'de', name: 'German', flag: '🇩🇪' },
+  { id: 'en', name: 'English (English)', flag: '🌐' },
+  { id: 'hi', name: 'हिन्दी (Hindi)', flag: '🇮🇳' },
+  { id: 'ta', name: 'தமிழ் (Tamil)', flag: '🇮🇳' },
+  { id: 'te', name: 'తెలుగు (Telugu)', flag: '🇮🇳' },
+  { id: 'ml', name: 'മലയാളം (Malayalam)', flag: '🇮🇳' },
 ];
 
 export default function DetectorPage() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [selectedLang, setSelectedLang] = useState<string>('English');
+  const [selectedLang, setSelectedLang] = useState<string>('English (English)');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -104,7 +104,6 @@ export default function DetectorPage() {
 
       setResult(data);
       
-      // Store history in sessionStorage for per-session persistence
       const history = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
@@ -215,6 +214,17 @@ export default function DetectorPage() {
                   </div>
                   <div className="bg-secondary/30 p-4 rounded-lg border text-sm italic">
                     {result.explanation}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-secondary/20 p-3 rounded-lg border">
+                      <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Detected Language</p>
+                      <p className="font-semibold text-sm">{result.detectedLanguage}</p>
+                    </div>
+                    <div className="bg-secondary/20 p-3 rounded-lg border">
+                      <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Lang Confidence</p>
+                      <p className="font-semibold text-sm">{(result.languageConfidence * 100).toFixed(0)}%</p>
+                    </div>
                   </div>
                 </div>
               )}
