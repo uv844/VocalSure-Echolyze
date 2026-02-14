@@ -69,7 +69,7 @@ const USFlag = () => (
 );
 
 const LANGUAGES = [
-  { id: 'en', name: 'English (English)', flag: <USFlag /> },
+  { id: 'en', name: 'English (US)', flag: <USFlag /> },
   { id: 'hi', name: 'हिन्दी (Hindi)', flag: <IndiaFlag /> },
   { id: 'ta', name: 'தமிழ் (Tamil)', flag: <IndiaFlag /> },
   { id: 'te', name: 'తెలుగు (Telugu)', flag: <IndiaFlag /> },
@@ -84,7 +84,7 @@ export default function DetectorPage() {
   const [inputMode, setInputMode] = useState<'upload' | 'base64'>('upload');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [selectedLang, setSelectedLang] = useState<string>('English (English)');
+  const [selectedLang, setSelectedLang] = useState<string>('English (US)');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
