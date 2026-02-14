@@ -26,15 +26,15 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="border-t py-12 bg-secondary/20 mt-20">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="container mx-auto px-4 text-center">
+            <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-2">
                 <span className="font-headline font-bold text-lg">AI Voice Detector</span>
               </div>
               <div className="text-sm text-muted-foreground">
                 &copy; 2026 Echolyze
               </div>
-              <div className="flex gap-6 text-sm font-medium text-muted-foreground">
+              <div className="flex gap-8 text-xs font-bold uppercase tracking-widest text-muted-foreground/50">
                 <a href="#" className="hover:text-primary transition-colors">Privacy</a>
                 <a href="#" className="hover:text-primary transition-colors">Terms</a>
                 <a href="#" className="hover:text-primary transition-colors">Security</a>
