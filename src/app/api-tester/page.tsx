@@ -115,10 +115,6 @@ export default function DetectorPage() {
         const fullDataUri = await fileToBase64(selectedFile);
         const rawBase64 = fullDataUri.split(',')[1] || fullDataUri;
         setBase64Input(rawBase64);
-        toast({
-          title: "File processed",
-          description: "Audio converted to raw Base64 code automatically.",
-        });
       } catch (err) {
         toast({
           title: "Processing Error",
@@ -133,7 +129,7 @@ export default function DetectorPage() {
     if (!userApiKey) {
       toast({
         title: "API Key Required",
-        description: "Please enter your Echolyze API key to proceed.",
+        description: "Please enter your Echolyze API key (echolyze_hackathon_2026).",
         variant: "destructive"
       });
       return;
@@ -171,7 +167,7 @@ export default function DetectorPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Analysis failed');
+        throw new Error(data.message || data.error || 'Analysis failed');
       }
 
       setResult(data);
