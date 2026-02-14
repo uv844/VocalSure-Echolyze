@@ -55,7 +55,16 @@ export default function DetectorPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       if (!selectedFile.type.includes('audio') && !selectedFile.name.endsWith('.mp3')) {
@@ -68,16 +77,22 @@ export default function DetectorPage() {
       }
       setFile(selectedFile);
       setResult(null);
-    }
-  };
 
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
+      try {
+        const b64 = await fileToBase64(selectedFile);
+        setBase64Input(b64);
+        toast({
+          title: "File processed",
+          description: "Audio converted to Base64 code automatically.",
+        });
+      } catch (err) {
+        toast({
+          title: "Processing Error",
+          description: "Could not convert file to Base64.",
+          variant: "destructive"
+        });
+      }
+    }
   };
 
   const handleAnalyze = async () => {
@@ -101,7 +116,7 @@ export default function DetectorPage() {
         });
         return;
       }
-      audioDataUri = await fileToBase64(file);
+      audioDataUri = base64Input;
     } else {
       if (!base64Input.trim()) {
         toast({
