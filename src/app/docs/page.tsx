@@ -72,10 +72,6 @@ export default function DocsPage() {
                 </div>
               </CardContent>
             </Card>
-            <div className="bg-secondary/30 p-4 rounded-xl border flex gap-4">
-              <ShieldCheck className="h-6 w-6 text-primary flex-shrink-0" />
-              <p className="text-sm">Use your unique API key for verification. Secure your integrations by never exposing this key in public client-side code.</p>
-            </div>
           </section>
 
           <section id="endpoints" className="space-y-6">
