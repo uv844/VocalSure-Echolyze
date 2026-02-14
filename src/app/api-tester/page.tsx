@@ -1,12 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { 
   Upload, 
   Loader2, 
-  ShieldAlert,
-  CheckCircle2,
-  Lock,
   Globe,
   Mic,
   FileAudio
@@ -19,8 +16,6 @@ import {
   CardDescription 
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { 
   Select, 
   SelectContent, 
@@ -42,8 +37,6 @@ const LANGUAGES = [
 
 export default function DetectorPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [base64Input, setBase64Input] = useState('');
-  const [apiKey, setApiKey] = useState('AIzaSyCpY-y1ikZ6nJXYtx0jbDcSZIGKB4rG4Ng');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [selectedLang, setSelectedLang] = useState<string>('English');
@@ -62,7 +55,6 @@ export default function DetectorPage() {
         return;
       }
       setFile(selectedFile);
-      setBase64Input('');
       setResult(null);
     }
   };
@@ -77,10 +69,10 @@ export default function DetectorPage() {
   };
 
   const handleAnalyze = async () => {
-    if (!file && !base64Input) {
+    if (!file) {
       toast({
-        title: "Input Required",
-        description: "Please upload a file or paste base64 data.",
+        title: "File Required",
+        description: "Please upload an audio file to analyze.",
         variant: "destructive"
       });
       return;
@@ -90,7 +82,7 @@ export default function DetectorPage() {
     setResult(null);
 
     try {
-      const audioDataUri = file ? await fileToBase64(file) : base64Input;
+      const audioDataUri = await fileToBase64(file);
       
       const response = await fetch('/api/analyze', {
         method: 'POST',
@@ -115,7 +107,7 @@ export default function DetectorPage() {
       const history = JSON.parse(localStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
-        fileName: file ? file.name : 'Base64 Input',
+        fileName: file.name,
         timestamp: new Date().toISOString(),
         ...data
       };
@@ -179,7 +171,7 @@ export default function DetectorPage() {
 
               <Button 
                 onClick={handleAnalyze}
-                disabled={loading || (!file && !base64Input)}
+                disabled={loading || !file}
                 className="w-full h-12"
               >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
