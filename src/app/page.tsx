@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Mic, ShieldCheck, Zap, Globe, ArrowRight } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import AudioVisualizer from '@/components/AudioVisualizer';
 
 export default function LandingPage() {
   const heroImage = PlaceHolderImages.find(img => img.id === 'hero-voice');
@@ -47,6 +48,7 @@ export default function LandingPage() {
                 fill 
                 className="object-cover opacity-90"
                 data-ai-hint={heroImage.imageHint}
+                priority
               />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
@@ -55,15 +57,7 @@ export default function LandingPage() {
                 <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-white text-xs font-bold uppercase tracking-widest">Real-time Pulse</span>
               </div>
-              <div className="h-12 w-full flex items-end gap-1">
-                {Array.from({ length: 30 }).map((_, i) => (
-                  <div 
-                    key={i} 
-                    className="flex-1 bg-accent rounded-t-sm" 
-                    style={{ height: `${Math.random() * 100}%`, transition: 'height 0.3s ease' }} 
-                  />
-                ))}
-              </div>
+              <AudioVisualizer />
             </div>
           </div>
         </div>
