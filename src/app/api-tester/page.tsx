@@ -129,7 +129,7 @@ export default function DetectorPage() {
     if (!userApiKey) {
       toast({
         title: "API Key Required",
-        description: "Please enter your Echolyze API key.",
+        description: "Please enter your Echolyze API key (e.g., echolyze_key_2026).",
         variant: "destructive"
       });
       return;
