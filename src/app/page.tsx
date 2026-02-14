@@ -34,23 +34,31 @@ export default function LandingPage() {
             Forensic-grade audio classification. Distinguish between human speech and synthetic deepfakes with the precision of Echolyze AI.
           </p>
 
-          {/* Floating Languages */}
-          <div className="flex flex-wrap justify-center gap-2 mb-16 max-w-3xl mx-auto animate-in fade-in duration-1000 delay-500">
+          {/* Floating Language Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-16 max-w-3xl mx-auto animate-in fade-in duration-1000 delay-500">
             {SUPPORTED_LANGUAGES.map((lang, i) => (
-              <Badge 
+              <div 
                 key={lang.name} 
-                variant="outline" 
-                className="bg-secondary/40 backdrop-blur-md border-white/5 py-2 px-4 flex items-center gap-2.5 transition-all hover:border-primary/50 hover:bg-primary/5 cursor-default group rounded-full"
+                className="group relative"
               >
-                <span className="text-base">{lang.flag}</span>
-                <span className="font-bold text-[11px] uppercase tracking-wider">{lang.native}</span>
-                <span className="text-[10px] opacity-40 group-hover:text-primary transition-colors group-hover:opacity-100">({lang.name})</span>
-              </Badge>
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                <div className="relative flex items-center gap-3 px-6 py-3 bg-secondary/40 backdrop-blur-xl border border-white/5 rounded-full shadow-2xl transition-all group-hover:border-primary/50 group-hover:translate-y-[-2px]">
+                  <span className="text-lg">{lang.flag}</span>
+                  <div className="flex flex-col items-start">
+                    <span className="font-headline font-bold text-[12px] uppercase tracking-wider text-foreground">
+                      {lang.native}
+                    </span>
+                    <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">
+                      {lang.name}
+                    </span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
 
           {/* Decorative Sound Wave */}
-          <div className="max-w-2xl mx-auto mb-16 p-8 glass rounded-[2rem] shadow-2xl">
+          <div className="max-w-2xl mx-auto mb-16 p-8 glass rounded-[2rem] shadow-2xl border-white/5">
             <div className="flex items-center gap-3 justify-center mb-4 text-[11px] font-bold tracking-[0.4em] text-primary/80 uppercase">
               <Activity className="h-4 w-4" />
               Continuous Spectral Audit
@@ -67,7 +75,7 @@ export default function LandingPage() {
             </Link>
             <Link 
               href="/docs" 
-              className="glass px-12 py-6 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all"
+              className="glass px-12 py-6 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all border-white/5"
             >
               Echolyze API Docs
             </Link>
@@ -101,7 +109,7 @@ export default function LandingPage() {
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <div className="p-12 rounded-[2.5rem] glass hover:border-primary/20 transition-all group">
+    <div className="p-12 rounded-[2.5rem] glass border-white/5 hover:border-primary/20 transition-all group">
       <div className="mb-8 p-5 bg-primary/10 w-fit rounded-2xl group-hover:scale-110 group-hover:bg-primary/20 transition-all">
         {icon}
       </div>
