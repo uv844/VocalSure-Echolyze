@@ -3,11 +3,11 @@ import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity, Cpu, Gauge } from 
 import AudioVisualizer from '@/components/AudioVisualizer';
 
 const SUPPORTED_LANGUAGES = [
-  { name: 'English', native: 'English' },
-  { name: 'Hindi', native: 'हिन्दी' },
-  { name: 'Tamil', native: 'தமிழ்' },
-  { name: 'Telugu', native: 'తెలుగు' },
-  { name: 'Malayalam', native: 'മലയാളം' },
+  { name: 'English', native: 'English', flag: '🌐' },
+  { name: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
+  { name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳' },
+  { name: 'Telugu', native: 'తెలుగు', flag: '🇮🇳' },
+  { name: 'Malayalam', native: 'മലയാളം', flag: '🇮🇳' },
 ];
 
 export default function LandingPage() {
@@ -42,7 +42,7 @@ export default function LandingPage() {
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative flex items-center gap-3 px-6 py-3 bg-secondary/40 backdrop-blur-xl border border-white/5 rounded-full shadow-2xl transition-all group-hover:border-primary/50 group-hover:translate-y-[-2px]">
-                  <Globe className="h-4 w-4 text-primary" />
+                  <span className="text-xl">{lang.flag}</span>
                   <div className="flex flex-col items-start">
                     <span className="font-headline font-bold text-[12px] uppercase tracking-wider text-foreground">
                       {lang.native}
