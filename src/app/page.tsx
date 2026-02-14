@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ArrowRight, Zap, Globe, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity } from 'lucide-react';
+import AudioVisualizer from '@/components/AudioVisualizer';
 
 export default function LandingPage() {
   return (
@@ -21,11 +22,20 @@ export default function LandingPage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
             State-of-the-art audio forensics. Instantly detect synthetic voices, deepfakes, and automated speech with unprecedented accuracy using the Echolyze API.
           </p>
+
+          {/* Decorative Sound Wave */}
+          <div className="max-w-xl mx-auto mb-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+            <div className="flex items-center gap-2 justify-center mb-2 text-[10px] font-bold tracking-[0.3em] text-primary/60 uppercase">
+              <Activity className="h-3 w-3" />
+              Live Spectral Analysis
+            </div>
+            <AudioVisualizer />
+          </div>
           
           <div className="flex flex-wrap justify-center gap-4">
             <Link 
               href="/api-tester" 
-              className="bg-primary text-primary-foreground px-10 py-5 rounded-2xl font-bold text-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.3)] transition-all flex items-center gap-2 group"
+              className="bg-primary text-primary-foreground px-10 py-5 rounded-2xl font-bold text-lg hover:shadow-[0_0_30px_rgba(var(--primary),0.3)] transition-all flex items-center gap-2 group"
             >
               Analyze Audio <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Link>
