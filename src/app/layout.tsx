@@ -32,7 +32,7 @@ export default function RootLayout({
                 <span className="font-headline font-bold text-lg">AI Voice Detector</span>
               </div>
               <div className="text-sm text-muted-foreground">
-                &copy; 2026 Echolyze Forensics. Secure Verification System.
+                &copy; 2026 Echolyze
               </div>
               <div className="flex gap-6 text-sm font-medium text-muted-foreground">
                 <a href="#" className="hover:text-primary transition-colors">Privacy</a>

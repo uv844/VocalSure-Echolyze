@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, History, BookOpen, ShieldCheck, Home } from 'lucide-react';
+import { Shield, History, BookOpen, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function Navigation() {
@@ -54,12 +54,7 @@ export default function Navigation() {
           })}
         </nav>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-[11px] font-bold text-primary tracking-wider uppercase">
-            <ShieldCheck className="h-3.5 w-3.5" />
-            Verified Gateway
-          </div>
-        </div>
+        <div className="flex items-center gap-4 w-32 md:w-auto" />
       </div>
     </header>
   );
