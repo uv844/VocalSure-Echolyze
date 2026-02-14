@@ -100,93 +100,39 @@ export default function DetectorPage() {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      if (!selectedFile.type.includes('audio') && !selectedFile.name.endsWith('.mp3')) {
-        toast({
-          title: "Invalid file type",
-          description: "Please upload an audio file (MP3/WAV).",
-          variant: "destructive"
-        });
-        return;
-      }
       setFile(selectedFile);
       setResult(null);
-
       try {
         const fullDataUri = await fileToBase64(selectedFile);
         const rawBase64 = fullDataUri.split(',')[1] || fullDataUri;
         setBase64Input(rawBase64);
       } catch (err) {
-        toast({
-          title: "Processing Error",
-          description: "Could not convert file to Base64.",
-          variant: "destructive"
-        });
+        toast({ title: "Processing Error", description: "Could not convert file.", variant: "destructive" });
       }
     }
   };
 
   const handleAnalyze = async () => {
     if (!userApiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please enter your Echolyze API key (e.g., echolyze_key_2026).",
-        variant: "destructive"
-      });
+      toast({ title: "API Key Required", description: "Please enter echolyze_key_2026", variant: "destructive" });
       return;
     }
 
-    if (!base64Input.trim()) {
-      toast({
-        title: "Input Required",
-        description: "Please provide an audio file or base64 string.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const audioDataUri = base64Input.startsWith('data:') 
-      ? base64Input 
-      : `data:audio/mp3;base64,${base64Input}`;
-
+    const audioDataUri = base64Input.startsWith('data:') ? base64Input : `data:audio/mp3;base64,${base64Input}`;
     setLoading(true);
     setResult(null);
 
     try {
       const response = await fetch('/api/analyze', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': userApiKey
-        },
-        body: JSON.stringify({
-          audioDataUri,
-          userSelectedLanguage: selectedLang
-        })
+        headers: { 'Content-Type': 'application/json', 'x-api-key': userApiKey },
+        body: JSON.stringify({ audioDataUri, userSelectedLanguage: selectedLang })
       });
-
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || data.error || 'Analysis failed');
-      }
-
+      if (!response.ok) throw new Error(data.message || data.error);
       setResult(data);
-      
-      const history = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
-      const newEntry = {
-        id: Date.now().toString(),
-        fileName: inputMode === 'upload' ? (file?.name || 'Uploaded File') : 'Base64 Input',
-        timestamp: new Date().toISOString(),
-        ...data
-      };
-      sessionStorage.setItem('echolyze_history', JSON.stringify([newEntry, ...history].slice(0, 50)));
-
     } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive"
-      });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -199,7 +145,7 @@ export default function DetectorPage() {
           <Card>
             <CardHeader>
               <CardTitle>AI Voice Detector</CardTitle>
-              <CardDescription>Enter your API key and provide audio for forensic classification</CardDescription>
+              <CardDescription>Provide audio for forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -209,7 +155,7 @@ export default function DetectorPage() {
                 <div className="relative">
                   <Input 
                     type={showApiKey ? "text" : "password"}
-                    placeholder="Enter your x-api-key"
+                    placeholder="Enter echolyze_key_2026"
                     value={userApiKey}
                     onChange={(e) => setUserApiKey(e.target.value)}
                     className="bg-secondary/20 border-border/50 pr-10"
@@ -228,7 +174,7 @@ export default function DetectorPage() {
 
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
-                  <Globe className="h-3 w-3" /> Spoken Language
+                  <Globe className="h-3 w-3" /> Language
                 </label>
                 <Select value={selectedLang} onValueChange={setSelectedLang}>
                   <SelectTrigger>
@@ -237,57 +183,31 @@ export default function DetectorPage() {
                   <SelectContent>
                     {LANGUAGES.map((lang) => (
                       <SelectItem key={lang.id} value={lang.name}>
-                        <div className="flex items-center gap-3">
-                          {lang.flag}
-                          <span>{lang.name}</span>
-                        </div>
+                        <div className="flex items-center gap-3">{lang.flag} {lang.name}</div>
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="space-y-4">
-                <Tabs value={inputMode} onValueChange={(v: any) => setInputMode(v)} className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="upload" className="flex items-center gap-2">
-                      <FileAudio className="h-4 w-4" /> Upload
-                    </TabsTrigger>
-                    <TabsTrigger value="base64" className="flex items-center gap-2">
-                      <Code className="h-4 w-4" /> Base64
-                    </TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="upload" className="pt-2">
-                    <div 
-                      onClick={() => fileInputRef.current?.click()}
-                      className={cn(
-                        "border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-secondary/20",
-                        file ? "border-primary bg-primary/5" : "border-border"
-                      )}
-                    >
-                      <Upload className={cn("h-8 w-8 mb-2", file ? "text-primary" : "text-muted-foreground")} />
-                      <p className="text-sm font-medium">{file ? file.name : "Click to upload MP3/WAV"}</p>
-                      <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="base64" className="pt-2">
-                    <Textarea 
-                      placeholder="Paste your base64 encoded audio string here..."
-                      className="min-h-[140px] font-code text-xs bg-secondary/20"
-                      value={base64Input}
-                      onChange={(e) => setBase64Input(e.target.value)}
-                    />
-                  </TabsContent>
-                </Tabs>
-              </div>
+              <Tabs value={inputMode} onValueChange={(v: any) => setInputMode(v)}>
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="upload"><FileAudio className="h-4 w-4 mr-2" /> Upload</TabsTrigger>
+                  <TabsTrigger value="base64"><Code className="h-4 w-4 mr-2" /> Base64</TabsTrigger>
+                </TabsList>
+                <TabsContent value="upload" className="pt-2">
+                  <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-secondary/20 transition-all">
+                    <Upload className="h-8 w-8 mb-2 text-muted-foreground" />
+                    <p className="text-sm font-medium">{file ? file.name : "Click to upload audio"}</p>
+                    <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
+                  </div>
+                </TabsContent>
+                <TabsContent value="base64" className="pt-2">
+                  <Textarea placeholder="Paste base64 audio string..." className="min-h-[140px] font-code text-xs bg-secondary/20" value={base64Input} onChange={(e) => setBase64Input(e.target.value)} />
+                </TabsContent>
+              </Tabs>
 
-              <Button 
-                onClick={handleAnalyze}
-                disabled={loading || !base64Input}
-                className="w-full h-12"
-              >
+              <Button onClick={handleAnalyze} disabled={loading || !base64Input} className="w-full h-12">
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
                 Run Detection
               </Button>
@@ -296,72 +216,39 @@ export default function DetectorPage() {
         </div>
 
         <div className="space-y-6">
-          <Card className="h-full overflow-hidden">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Activity className="h-5 w-5 text-primary" />
-                Forensic Analysis
-              </CardTitle>
-            </CardHeader>
+          <Card className="h-full">
+            <CardHeader><CardTitle className="flex items-center gap-2"><Activity className="h-5 w-5 text-primary" /> Forensic Analysis</CardTitle></CardHeader>
             <CardContent className="flex items-center justify-center min-h-[400px]">
               {!result && !loading ? (
-                <div className="text-center space-y-2">
-                  <p className="text-muted-foreground">Results will appear here after scanning</p>
-                  <p className="text-[10px] text-muted-foreground/50 uppercase tracking-widest font-bold">Session history enabled</p>
-                </div>
+                <p className="text-muted-foreground">Results will appear here</p>
               ) : loading ? (
-                <div className="w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+                <div className="w-full text-center space-y-8 animate-pulse">
                   <AudioVisualizer />
-                  <div className="space-y-3">
-                    <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />
-                    <div className="space-y-1">
-                      <p className="text-sm font-bold uppercase tracking-widest text-primary animate-pulse">Analyzing Voiceprint</p>
-                      <p className="text-[10px] text-muted-foreground italic">Running Echolyze spectral decomposition...</p>
-                    </div>
-                  </div>
+                  <p className="text-sm font-bold uppercase tracking-widest text-primary">Analyzing Voiceprint...</p>
                 </div>
               ) : (
-                <div className="w-full space-y-6 animate-in fade-in duration-500 slide-in-from-bottom-4">
-                  <div className={cn(
-                    "p-6 rounded-2xl border-2 text-center shadow-lg transition-all",
-                    result.origin === 'AI_GENERATED' 
-                      ? "border-destructive/30 text-destructive bg-destructive/5 shadow-destructive/10" 
-                      : "border-primary/30 text-primary bg-primary/5 shadow-primary/10"
-                  )}>
-                    <p className="text-[10px] uppercase font-bold tracking-[0.2em] mb-2 opacity-70">Detection Result</p>
+                <div className="w-full space-y-6 animate-in fade-in duration-500">
+                  <div className={cn("p-6 rounded-2xl border-2 text-center", result.origin === 'AI_GENERATED' ? "border-destructive/30 text-destructive bg-destructive/5" : "border-primary/30 text-primary bg-primary/5")}>
+                    <p className="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-70">Result</p>
                     <div className="flex items-center justify-center gap-3">
-                      {result.origin === 'AI_GENERATED' ? (
-                        <Bot className="h-8 w-8 text-destructive animate-pulse" />
-                      ) : (
-                        <User className="h-8 w-8 text-primary" />
-                      )}
-                      <p className="text-3xl font-headline font-bold">
-                        {result.origin === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}
-                      </p>
+                      {result.origin === 'AI_GENERATED' ? <Bot className="h-8 w-8" /> : <User className="h-8 w-8" />}
+                      <p className="text-3xl font-bold">{result.origin === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}</p>
                     </div>
                   </div>
-
-                  <div className="space-y-2 px-2">
+                  <div className="space-y-2">
                     <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                       <span>Forensic Confidence</span>
-                      <span className="text-primary">{(result.confidence * 100).toFixed(1)}%</span>
+                      <span>{(result.confidence * 100).toFixed(1)}%</span>
                     </div>
                     <Progress value={result.confidence * 100} className="h-2" />
                   </div>
-
-                  <div className="bg-secondary/30 p-4 rounded-xl border border-border/50 text-sm leading-relaxed text-muted-foreground">
+                  <div className="bg-secondary/30 p-4 rounded-xl border border-border/50 text-sm">
                     <span className="font-bold text-foreground mr-2">Explanation:</span>
                     {result.explanation}
                   </div>
-
-                  <div className="w-full">
-                    <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Detected Language</p>
-                      <p className="font-semibold text-sm flex items-center gap-2">
-                        <Globe className="h-3 w-3 text-primary" />
-                        {result.detectedLanguage}
-                      </p>
-                    </div>
+                  <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
+                    <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Detected Language</p>
+                    <p className="font-semibold text-sm flex items-center gap-2"><Globe className="h-3 w-3 text-primary" />{result.detectedLanguage}</p>
                   </div>
                 </div>
               )}

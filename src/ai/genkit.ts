@@ -1,6 +1,10 @@
 import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 
+/**
+ * Genkit configuration for Echolyze AI.
+ * We use the string identifier for models to ensure maximum stability and avoid build-time export errors.
+ */
 export const ai = genkit({
   plugins: [
     googleAI(),
