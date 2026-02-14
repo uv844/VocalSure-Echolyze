@@ -16,37 +16,38 @@ export default function Navigation() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="bg-primary/10 p-2 rounded-xl border border-primary/20 transition-colors">
-            <Shield className="h-6 w-6 text-primary" />
+    <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/60 backdrop-blur-xl">
+      <div className="container mx-auto px-4 flex h-24 items-center justify-between">
+        <Link href="/" className="flex items-center gap-4 group">
+          <div className="bg-primary/10 p-2.5 rounded-2xl border border-primary/20 transition-all group-hover:bg-primary/20 group-hover:scale-105">
+            <Shield className="h-7 w-7 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-headline text-xl font-bold tracking-tight text-foreground">
+            <span className="font-headline text-2xl font-bold tracking-tighter text-foreground leading-none">
               AI Voice Detector
             </span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-              Powered by Echolyze
+            <span className="text-[11px] text-muted-foreground uppercase tracking-[0.3em] font-bold">
+              Echolyze API
             </span>
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-2 bg-secondary/50 p-1.5 rounded-xl border">
+        <nav className="hidden md:flex items-center gap-1 bg-secondary/30 p-1.5 rounded-2xl border border-white/5">
           {links.map((link) => {
             const Icon = link.icon;
+            const isActive = pathname === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all",
-                  pathname === link.href 
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" 
-                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  "flex items-center gap-2.5 px-5 py-2.5 text-sm font-bold rounded-xl transition-all",
+                  isActive 
+                    ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20 scale-[1.02]" 
+                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
                 )}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className={cn("h-4.5 w-4.5", isActive ? "text-white" : "text-primary")} />
                 {link.label}
               </Link>
             );
@@ -54,9 +55,9 @@ export default function Navigation() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-bold text-primary">
-            <ShieldCheck className="h-3 w-3" />
-            V3.0 GATEWAY
+          <div className="hidden sm:flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-[11px] font-bold text-primary tracking-wider uppercase">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Verified Gateway
           </div>
         </div>
       </div>
