@@ -30,7 +30,6 @@ export default function HistoryPage() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    // Read from sessionStorage for session-based history
     const savedHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
     setHistory(savedHistory);
   }, []);
