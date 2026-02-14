@@ -10,10 +10,10 @@ export default function AudioVisualizer() {
     const generateHeights = () => Array.from({ length: 40 }, () => Math.random() * 100);
     setHeights(generateHeights());
     
-    // Fast interval for a "live analysis" feel
+    // Slower interval for a more rhythmic, intentional scanning feel
     const interval = setInterval(() => {
       setHeights(generateHeights());
-    }, 100);
+    }, 300); // Increased from 100ms to 300ms
     
     return () => clearInterval(interval);
   }, []);
@@ -32,7 +32,7 @@ export default function AudioVisualizer() {
         heights.map((height, i) => (
           <div 
             key={i} 
-            className="w-1 bg-primary rounded-full transition-all duration-100 ease-in-out opacity-80" 
+            className="w-1 bg-primary rounded-full transition-all duration-300 ease-in-out opacity-80" 
             style={{ 
               height: `${Math.max(10, height)}%`,
               // Add a slight glow effect to the bars
