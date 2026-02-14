@@ -9,7 +9,7 @@ export default function Navigation() {
   const pathname = usePathname();
 
   const links = [
-    { href: '/api-tester', label: 'Detect', icon: Shield },
+    { href: '/api-tester', label: 'Detector', icon: Shield },
     { href: '/docs', label: 'API Docs', icon: BookOpen },
     { href: '/history', label: 'History', icon: History },
   ];
@@ -23,10 +23,10 @@ export default function Navigation() {
           </div>
           <div className="flex flex-col">
             <span className="font-headline text-xl font-bold tracking-tight text-foreground">
-              VoiceGuard AI
+              EchoLyze
             </span>
             <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-              AI Voice Detection API
+              AI Voice Forensics
             </span>
           </div>
         </Link>
@@ -55,7 +55,7 @@ export default function Navigation() {
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-bold text-primary">
             <ShieldCheck className="h-3 w-3" />
-            SECURED API
+            V3.0 GATEWAY
           </div>
         </div>
       </div>

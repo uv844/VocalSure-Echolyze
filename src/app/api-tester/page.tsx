@@ -29,7 +29,6 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
@@ -39,8 +38,6 @@ const LANGUAGES = [
   { id: 'es', name: 'Spanish', flag: '🇪🇸' },
   { id: 'fr', name: 'French', flag: '🇫🇷' },
   { id: 'de', name: 'German', flag: '🇩🇪' },
-  { id: 'it', name: 'Italian', flag: '🇮🇹' },
-  { id: 'pt', name: 'Portuguese', flag: '🇵🇹' },
 ];
 
 export default function DetectorPage() {
@@ -49,7 +46,7 @@ export default function DetectorPage() {
   const [apiKey, setApiKey] = useState('AIzaSyCpY-y1ikZ6nJXYtx0jbDcSZIGKB4rG4Ng');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
-  const [selectedLang, setSelectedLang] = useState<string>('Tamil');
+  const [selectedLang, setSelectedLang] = useState<string>('English');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -99,7 +96,7 @@ export default function DetectorPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'echolyze_hackathon_2026' // Internal gateway key
+          'x-api-key': 'echolyze_hackathon_2026'
         },
         body: JSON.stringify({
           audioDataUri,
@@ -136,170 +133,92 @@ export default function DetectorPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
+    <div className="container mx-auto px-4 py-12 max-w-5xl">
       <div className="grid lg:grid-cols-2 gap-8">
-        {/* Left Column: Analysis Input */}
         <div className="space-y-6">
-          <Card className="bg-secondary/20 border-border/50">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-headline font-bold">Analyze Voice</CardTitle>
-              <CardDescription>Upload an MP3 or paste base64-encoded audio</CardDescription>
+              <CardTitle>Audio Analysis</CardTitle>
+              <CardDescription>Upload audio for classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* API Key */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
-                  <Lock className="h-3 w-3" /> API Key
-                </label>
-                <Input 
-                  type="password"
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                  placeholder="Enter your Gemini API key"
-                  className="bg-background/50 border-border/50 h-11"
-                />
-              </div>
-
-              {/* Language */}
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
                   <Globe className="h-3 w-3" /> Language
                 </label>
                 <Select value={selectedLang} onValueChange={setSelectedLang}>
-                  <SelectTrigger className="bg-background/50 border-border/50 h-11">
+                  <SelectTrigger>
                     <SelectValue placeholder="Select language" />
                   </SelectTrigger>
                   <SelectContent>
                     {LANGUAGES.map((lang) => (
                       <SelectItem key={lang.id} value={lang.name}>
-                        <span className="flex items-center gap-2">
-                          <span className="text-xs">{lang.flag}</span>
-                          <span>{lang.name}</span>
-                        </span>
+                        {lang.flag} {lang.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* File Upload */}
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
-                  <FileAudio className="h-3 w-3" /> Upload MP3
+                  <FileAudio className="h-3 w-3" /> Audio File
                 </label>
                 <div 
                   onClick={() => fileInputRef.current?.click()}
                   className={cn(
-                    "border-2 border-dashed rounded-xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all hover:border-primary/50 hover:bg-primary/5",
-                    file ? "border-primary bg-primary/5" : "border-border/50"
+                    "border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-secondary/20",
+                    file ? "border-primary bg-primary/5" : "border-border"
                   )}
                 >
-                  <Upload className={cn("h-10 w-10 mb-4", file ? "text-primary" : "text-muted-foreground")} />
-                  {file ? (
-                    <div className="text-center">
-                      <p className="font-bold text-foreground">{file.name}</p>
-                      <p className="text-xs text-muted-foreground">{(file.size / 1024).toFixed(1)} KB</p>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground font-medium">Click to upload MP3 file</p>
-                  )}
+                  <Upload className={cn("h-8 w-8 mb-2", file ? "text-primary" : "text-muted-foreground")} />
+                  <p className="text-sm font-medium">{file ? file.name : "Click to upload MP3"}</p>
                   <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
                 </div>
-              </div>
-
-              {/* Base64 Input */}
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-muted-foreground uppercase">Or paste Base64</label>
-                <Textarea 
-                  value={base64Input}
-                  onChange={(e) => {
-                    setBase64Input(e.target.value);
-                    if (e.target.value) setFile(null);
-                  }}
-                  placeholder="Paste audio base64 data here..."
-                  className="bg-background/50 border-border/50 font-mono text-xs h-24"
-                />
               </div>
 
               <Button 
                 onClick={handleAnalyze}
                 disabled={loading || (!file && !base64Input)}
-                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold h-12 rounded-xl transition-all shadow-lg shadow-emerald-500/20"
+                className="w-full h-12"
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Detecting Voice...
-                  </>
-                ) : (
-                  <><Mic className="mr-2 h-5 w-5" /> Detect Voice</>
-                )}
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
+                Analyze Voice
               </Button>
             </CardContent>
           </Card>
         </div>
 
-        {/* Right Column: Results */}
         <div className="space-y-6">
-          <Card className="bg-secondary/10 border-border/50 h-full flex flex-col">
+          <Card className="h-full">
             <CardHeader>
-              <CardTitle className="text-2xl font-headline font-bold">Detection Result</CardTitle>
-              <CardDescription>Analysis output will appear here</CardDescription>
+              <CardTitle>Results</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 space-y-8 flex flex-col justify-center py-12">
+            <CardContent className="flex items-center justify-center min-h-[300px]">
               {!result && !loading ? (
-                <div className="text-center py-20 opacity-30">
-                  <ShieldAlert className="h-16 w-16 mx-auto mb-4" />
-                  <p className="font-medium">Waiting for input analysis...</p>
-                </div>
+                <p className="text-muted-foreground">Analysis results will appear here</p>
               ) : loading ? (
-                <div className="text-center space-y-6">
-                  <div className="relative w-24 h-24 mx-auto">
-                    <div className="absolute inset-0 border-4 border-primary/20 rounded-full" />
-                    <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold">Scanning Spectral Patterns</h3>
-                    <p className="text-sm text-muted-foreground">Isolating synthetic artifacts and neural frequencies...</p>
-                  </div>
+                <div className="text-center space-y-4">
+                  <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+                  <p className="text-sm">Scanning audio patterns...</p>
                 </div>
               ) : (
-                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="flex flex-col items-center gap-6">
-                    <div className={cn(
-                      "flex items-center gap-3 px-8 py-4 rounded-xl border-2 font-bold text-lg",
-                      result.origin === 'AI_GENERATED' 
-                        ? "border-destructive/30 bg-destructive/10 text-destructive" 
-                        : "border-emerald-500/30 bg-emerald-500/10 text-emerald-500"
-                    )}>
-                      {result.origin === 'AI_GENERATED' ? (
-                        <><ShieldAlert className="h-6 w-6" /> AI Generated</>
-                      ) : (
-                        <><CheckCircle2 className="h-6 w-6" /> Human Voice</>
-                      )}
-                    </div>
-
-                    <div className="w-full space-y-2">
-                      <div className="flex justify-between text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                        <span>Confidence</span>
-                        <span>{(result.confidence * 100).toFixed(0)}%</span>
-                      </div>
-                      <Progress value={result.confidence * 100} className="h-3 bg-secondary" />
-                    </div>
+                <div className="w-full space-y-6 animate-in fade-in duration-500">
+                  <div className={cn(
+                    "p-4 rounded-lg border-2 text-center font-bold text-xl",
+                    result.origin === 'AI_GENERATED' ? "border-destructive/50 text-destructive bg-destructive/10" : "border-primary/50 text-primary bg-primary/10"
+                  )}>
+                    {result.origin === 'AI_GENERATED' ? "AI Generated" : "Authentic Human"}
                   </div>
-
-                  <div className="grid gap-4">
-                    <div className="flex items-center justify-between border-b border-border/50 pb-2">
-                      <span className="text-sm font-medium text-muted-foreground">Language</span>
-                      <span className="text-sm font-bold uppercase">{result.detectedLanguage || selectedLang}</span>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs font-bold">
+                      <span>Confidence</span>
+                      <span>{(result.confidence * 100).toFixed(1)}%</span>
                     </div>
-
-                    <div className="space-y-2">
-                      <span className="text-sm font-medium text-muted-foreground">Explanation</span>
-                      <p className="text-sm leading-relaxed text-foreground/80 bg-secondary/30 p-4 rounded-lg border border-border/50">
-                        {result.explanation}
-                      </p>
-                    </div>
+                    <Progress value={result.confidence * 100} />
+                  </div>
+                  <div className="bg-secondary/30 p-4 rounded-lg border text-sm italic">
+                    {result.explanation}
                   </div>
                 </div>
               )}
