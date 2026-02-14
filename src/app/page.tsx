@@ -12,14 +12,28 @@ const IndiaFlag = () => (
   </svg>
 );
 
-const GlobeIcon = () => (
-  <div className="text-primary">
-    <Globe className="h-5 w-5" />
-  </div>
+const USFlag = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650" className="h-5 w-7 rounded-sm shadow-sm">
+    <rect width="1235" height="650" fill="#bf0a30"/>
+    <path d="M0 50h1235M0 150h1235M0 250h1235M0 350h1235M0 450h1235M0 550h1235" stroke="#fff" strokeWidth="50"/>
+    <rect width="494" height="350" fill="#002868"/>
+    <g fill="#fff">
+      {[...Array(5)].map((_, row) => (
+        [...Array(6)].map((_, col) => (
+          <circle key={`row1-${row}-${col}`} cx={41 + col * 82} cy={35 + row * 70} r="6" />
+        ))
+      ))}
+      {[...Array(4)].map((_, row) => (
+        [...Array(5)].map((_, col) => (
+          <circle key={`row2-${row}-${col}`} cx={82 + col * 82} cy={70 + row * 70} r="6" />
+        ))
+      ))}
+    </g>
+  </svg>
 );
 
 const SUPPORTED_LANGUAGES = [
-  { name: 'English', native: 'English', flag: <GlobeIcon /> },
+  { name: 'English', native: 'English', flag: <USFlag /> },
   { name: 'Hindi', native: 'हिन्दी', flag: <IndiaFlag /> },
   { name: 'Tamil', native: 'தமிழ்', flag: <IndiaFlag /> },
   { name: 'Telugu', native: 'తెలుగు', flag: <IndiaFlag /> },
