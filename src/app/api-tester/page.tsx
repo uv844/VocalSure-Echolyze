@@ -12,7 +12,8 @@ import {
   User,
   Key,
   Eye,
-  EyeOff
+  EyeOff,
+  Code
 } from 'lucide-react';
 import { 
   Card, 
