@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -31,13 +30,14 @@ export default function HistoryPage() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem('echolyze_history') || '[]');
+    // Read from sessionStorage for session-based history
+    const savedHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
     setHistory(savedHistory);
   }, []);
 
   const clearHistory = () => {
-    if (confirm('Are you sure you want to clear all history?')) {
-      localStorage.removeItem('echolyze_history');
+    if (confirm('Are you sure you want to clear this session\'s history?')) {
+      sessionStorage.removeItem('echolyze_history');
       setHistory([]);
     }
   };
@@ -54,13 +54,13 @@ export default function HistoryPage() {
         <div className="space-y-2">
           <h1 className="text-4xl font-headline font-bold text-primary flex items-center gap-3">
             <HistoryIcon className="h-10 w-10 text-accent" />
-            Analysis History
+            Session History
           </h1>
-          <p className="text-muted-foreground text-lg">Review and manage your past forensic voice checks.</p>
+          <p className="text-muted-foreground text-lg">Review forensic checks from your current session.</p>
         </div>
         <div className="flex items-center gap-4">
           <Button variant="outline" onClick={clearHistory} className="text-destructive hover:text-destructive">
-            <Trash2 className="mr-2 h-4 w-4" /> Clear All
+            <Trash2 className="mr-2 h-4 w-4" /> Clear Session
           </Button>
           <Link href="/api-tester">
             <Button className="bg-primary hover:bg-primary/90">New Analysis</Button>
@@ -85,7 +85,7 @@ export default function HistoryPage() {
             {filteredHistory.length === 0 ? (
               <div className="py-20 text-center text-muted-foreground">
                 <Mic className="h-12 w-12 mx-auto mb-4 opacity-20" />
-                <p className="text-lg">No history found. Try running a few analyses in the Tester!</p>
+                <p className="text-lg">No session history found. History is cleared when you close the tab.</p>
               </div>
             ) : (
               <div className="border rounded-xl overflow-hidden">

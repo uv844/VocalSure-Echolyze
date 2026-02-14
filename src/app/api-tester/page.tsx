@@ -104,14 +104,15 @@ export default function DetectorPage() {
 
       setResult(data);
       
-      const history = JSON.parse(localStorage.getItem('echolyze_history') || '[]');
+      // Store history in sessionStorage for per-session persistence
+      const history = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
         fileName: file.name,
         timestamp: new Date().toISOString(),
         ...data
       };
-      localStorage.setItem('echolyze_history', JSON.stringify([newEntry, ...history].slice(0, 50)));
+      sessionStorage.setItem('echolyze_history', JSON.stringify([newEntry, ...history].slice(0, 50)));
 
     } catch (error: any) {
       toast({
@@ -188,7 +189,10 @@ export default function DetectorPage() {
             </CardHeader>
             <CardContent className="flex items-center justify-center min-h-[300px]">
               {!result && !loading ? (
-                <p className="text-muted-foreground">Results will appear here after scanning</p>
+                <div className="text-center space-y-2">
+                  <p className="text-muted-foreground">Results will appear here after scanning</p>
+                  <p className="text-[10px] text-muted-foreground/50 uppercase tracking-widest font-bold">Session history enabled</p>
+                </div>
               ) : loading ? (
                 <div className="text-center space-y-4">
                   <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
