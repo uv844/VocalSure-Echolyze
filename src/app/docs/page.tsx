@@ -58,7 +58,7 @@ export default function DocsPage() {
   "origin": "AI_GENERATED",         // [AI_GENERATED | HUMAN]
   "confidence": 0.995,              // Float 0 to 1
   "explanation": "...",             // Classification reasoning
-  "detectedLanguage": "Spanish",    // Primary detected language
+  "detectedLanguage": "English",    // Primary detected language
   "timestamp": "2026-05-15T..."     // ISO String
 }`}
             </pre>
