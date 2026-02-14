@@ -21,14 +21,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased min-h-screen flex flex-col">
+      <body className="font-body antialiased min-h-screen flex flex-col" suppressHydrationWarning>
         <Navigation />
         <main className="flex-grow">
           {children}
         </main>
         <footer className="border-t py-8 bg-card mt-12">
           <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} EchoLyze Pro. Secure Voice Verification.</p>
+            <p>&copy; 2026 EchoLyze Pro. Secure Voice Verification.</p>
           </div>
         </footer>
         <Toaster />
