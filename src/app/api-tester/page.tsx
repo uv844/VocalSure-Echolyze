@@ -9,7 +9,9 @@ import {
   FileAudio,
   Activity,
   Bot,
-  User
+  User,
+  Key,
+  Code
 } from 'lucide-react';
 import { 
   Card, 
@@ -27,6 +29,9 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import AudioVisualizer from '@/components/AudioVisualizer';
@@ -41,6 +46,9 @@ const LANGUAGES = [
 
 export default function DetectorPage() {
   const [file, setFile] = useState<File | null>(null);
+  const [base64Input, setBase64Input] = useState<string>('');
+  const [userApiKey, setUserApiKey] = useState<string>('');
+  const [inputMode, setInputMode] = useState<'upload' | 'base64'>('upload');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [selectedLang, setSelectedLang] = useState<string>('English (English)');
@@ -73,26 +81,48 @@ export default function DetectorPage() {
   };
 
   const handleAnalyze = async () => {
-    if (!file) {
+    if (!userApiKey) {
       toast({
-        title: "File Required",
-        description: "Please upload an audio file to analyze.",
+        title: "API Key Required",
+        description: "Please enter your Echolyze API key to proceed.",
         variant: "destructive"
       });
       return;
+    }
+
+    let audioDataUri = '';
+    
+    if (inputMode === 'upload') {
+      if (!file) {
+        toast({
+          title: "File Required",
+          description: "Please upload an audio file to analyze.",
+          variant: "destructive"
+        });
+        return;
+      }
+      audioDataUri = await fileToBase64(file);
+    } else {
+      if (!base64Input.trim()) {
+        toast({
+          title: "Base64 Required",
+          description: "Please enter a valid base64 audio string.",
+          variant: "destructive"
+        });
+        return;
+      }
+      audioDataUri = base64Input.startsWith('data:') ? base64Input : `data:audio/mp3;base64,${base64Input}`;
     }
 
     setLoading(true);
     setResult(null);
 
     try {
-      const audioDataUri = await fileToBase64(file);
-      
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'echolyze_hackathon_2026'
+          'x-api-key': userApiKey
         },
         body: JSON.stringify({
           audioDataUri,
@@ -111,7 +141,7 @@ export default function DetectorPage() {
       const history = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
-        fileName: file.name,
+        fileName: inputMode === 'upload' ? file?.name : 'Base64 Input',
         timestamp: new Date().toISOString(),
         ...data
       };
@@ -135,9 +165,22 @@ export default function DetectorPage() {
           <Card>
             <CardHeader>
               <CardTitle>AI Voice Detector</CardTitle>
-              <CardDescription>Upload audio for forensic classification</CardDescription>
+              <CardDescription>Enter your API key and provide audio for forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
+                  <Key className="h-3 w-3" /> API Key
+                </label>
+                <Input 
+                  type="password"
+                  placeholder="Enter your x-api-key"
+                  value={userApiKey}
+                  onChange={(e) => setUserApiKey(e.target.value)}
+                  className="bg-secondary/20 border-border/50"
+                />
+              </div>
+
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
                   <Globe className="h-3 w-3" /> Spoken Language
@@ -156,26 +199,45 @@ export default function DetectorPage() {
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
-                  <FileAudio className="h-3 w-3" /> Audio File
-                </label>
-                <div 
-                  onClick={() => fileInputRef.current?.click()}
-                  className={cn(
-                    "border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-secondary/20",
-                    file ? "border-primary bg-primary/5" : "border-border"
-                  )}
-                >
-                  <Upload className={cn("h-8 w-8 mb-2", file ? "text-primary" : "text-muted-foreground")} />
-                  <p className="text-sm font-medium">{file ? file.name : "Click to upload MP3/WAV"}</p>
-                  <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
-                </div>
+              <div className="space-y-4">
+                <Tabs value={inputMode} onValueChange={(v: any) => setInputMode(v)} className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="upload" className="flex items-center gap-2">
+                      <FileAudio className="h-4 w-4" /> Upload
+                    </TabsTrigger>
+                    <TabsTrigger value="base64" className="flex items-center gap-2">
+                      <Code className="h-4 w-4" /> Base64
+                    </TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="upload" className="pt-2">
+                    <div 
+                      onClick={() => fileInputRef.current?.click()}
+                      className={cn(
+                        "border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-secondary/20",
+                        file ? "border-primary bg-primary/5" : "border-border"
+                      )}
+                    >
+                      <Upload className={cn("h-8 w-8 mb-2", file ? "text-primary" : "text-muted-foreground")} />
+                      <p className="text-sm font-medium">{file ? file.name : "Click to upload MP3/WAV"}</p>
+                      <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
+                    </div>
+                  </TabsContent>
+                  
+                  <TabsContent value="base64" className="pt-2">
+                    <Textarea 
+                      placeholder="Paste your base64 encoded audio string here..."
+                      className="min-h-[140px] font-code text-xs bg-secondary/20"
+                      value={base64Input}
+                      onChange={(e) => setBase64Input(e.target.value)}
+                    />
+                  </TabsContent>
+                </Tabs>
               </div>
 
               <Button 
                 onClick={handleAnalyze}
-                disabled={loading || !file}
+                disabled={loading || (inputMode === 'upload' ? !file : !base64Input)}
                 className="w-full h-12"
               >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
