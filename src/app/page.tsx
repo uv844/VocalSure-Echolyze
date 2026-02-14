@@ -2,12 +2,28 @@ import Link from 'next/link';
 import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity, Cpu, Gauge } from 'lucide-react';
 import AudioVisualizer from '@/components/AudioVisualizer';
 
+const IndiaFlag = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="h-5 w-7 rounded-sm shadow-sm">
+    <rect width="900" height="600" fill="#f4c430"/>
+    <rect width="900" height="200" y="200" fill="#fff"/>
+    <rect width="900" height="200" y="400" fill="#128807"/>
+    <circle cx="450" cy="300" r="40" fill="none" stroke="#000080" strokeWidth="8"/>
+    <circle cx="450" cy="300" r="10" fill="#000080"/>
+  </svg>
+);
+
+const GlobeIcon = () => (
+  <div className="text-primary">
+    <Globe className="h-5 w-5" />
+  </div>
+);
+
 const SUPPORTED_LANGUAGES = [
-  { name: 'English', native: 'English', flag: '🌐' },
-  { name: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
-  { name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳' },
-  { name: 'Telugu', native: 'తెలుగు', flag: '🇮🇳' },
-  { name: 'Malayalam', native: 'മലയാളം', flag: '🇮🇳' },
+  { name: 'English', native: 'English', flag: <GlobeIcon /> },
+  { name: 'Hindi', native: 'हिन्दी', flag: <IndiaFlag /> },
+  { name: 'Tamil', native: 'தமிழ்', flag: <IndiaFlag /> },
+  { name: 'Telugu', native: 'తెలుగు', flag: <IndiaFlag /> },
+  { name: 'Malayalam', native: 'മലയാളം', flag: <IndiaFlag /> },
 ];
 
 export default function LandingPage() {
@@ -42,9 +58,9 @@ export default function LandingPage() {
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative flex items-center gap-3 px-6 py-3 bg-secondary/40 backdrop-blur-xl border border-white/5 rounded-full shadow-2xl transition-all group-hover:border-primary/50 group-hover:translate-y-[-2px]">
-                  <span className="text-xl">{lang.flag}</span>
+                  <div className="flex-shrink-0">{lang.flag}</div>
                   <div className="flex flex-col items-start">
-                    <span className="font-headline font-bold text-[12px] uppercase tracking-wider text-foreground">
+                    <span className="font-headline font-bold text-[12px] uppercase tracking-wider text-foreground leading-none mb-0.5">
                       {lang.native}
                     </span>
                     <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">
