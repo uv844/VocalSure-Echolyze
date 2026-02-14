@@ -22,9 +22,13 @@ export default function LandingPage() {
             Neural Analysis Engine V3.0
           </div>
           
-          <h1 className="text-7xl md:text-9xl font-headline font-bold leading-[0.9] mb-8 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
-            Verify <span className="text-primary italic">Authenticity.</span>
+          <h1 className="text-7xl md:text-9xl font-headline font-bold leading-[0.9] mb-4 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
+            AI Voice <span className="text-primary italic">Detector</span>
           </h1>
+
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-muted-foreground/80 mb-8 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
+            Verify Authenticity.
+          </h2>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
             Forensic-grade audio classification. Distinguish between human speech and synthetic deepfakes with the precision of Echolyze AI.
