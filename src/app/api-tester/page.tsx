@@ -309,21 +309,17 @@ export default function DetectorPage() {
                   </div>
 
                   <div className="bg-secondary/30 p-4 rounded-xl border border-border/50 text-sm leading-relaxed text-muted-foreground">
-                    <span className="font-bold text-foreground mr-2">Analyst Note:</span>
+                    <span className="font-bold text-foreground mr-2">Explanation:</span>
                     {result.explanation}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="w-full">
                     <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
                       <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Detected Language</p>
                       <p className="font-semibold text-sm flex items-center gap-2">
                         <Globe className="h-3 w-3 text-primary" />
                         {result.detectedLanguage}
                       </p>
-                    </div>
-                    <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Language Score</p>
-                      <p className="font-semibold text-sm">{(result.languageConfidence * 100).toFixed(0)}%</p>
                     </div>
                   </div>
                 </div>
