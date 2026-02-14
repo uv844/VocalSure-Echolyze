@@ -50,8 +50,14 @@ export default function ApiTester() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [selectedLang, setSelectedLang] = useState<string>('English');
+  const [refId, setRefId] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Generate a reference ID only on the client to avoid hydration mismatch
+    setRefId(Math.random().toString(36).substring(2, 10).toUpperCase());
+  }, [result]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -106,7 +112,6 @@ export default function ApiTester() {
 
       setResult(data);
       
-      // Save to history
       const history = JSON.parse(localStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
@@ -136,7 +141,6 @@ export default function ApiTester() {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-8">
-          {/* Left Column: Upload */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             <Card className="border-2 border-dashed border-primary/20 bg-secondary/30">
               <CardContent className="pt-8 flex flex-col items-center text-center">
@@ -222,7 +226,6 @@ export default function ApiTester() {
             </Card>
           </div>
 
-          {/* Right Column: Results */}
           <div className="lg:col-span-3">
             {!result && !loading ? (
               <div className="h-full border-2 border-dashed rounded-3xl flex flex-col items-center justify-center p-12 text-center text-muted-foreground bg-white/50">
@@ -279,7 +282,7 @@ export default function ApiTester() {
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium">Language Match</span>
-                          {result.languageMatchVerdict?.includes('matches') ? (
+                          {result.languageMatchVerdict?.toLowerCase().includes('matches') ? (
                             <span className="text-green-600 flex items-center gap-1 text-sm font-bold">
                               <CheckCircle2 className="h-4 w-4" /> Match
                             </span>
@@ -300,7 +303,7 @@ export default function ApiTester() {
                     </div>
                   </CardContent>
                   <CardFooter className="bg-secondary/10 py-4 flex justify-between border-t">
-                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Reference ID: {Date.now().toString().slice(-8)}</span>
+                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Reference ID: {refId || 'PENDING'}</span>
                     <button className="text-xs font-bold text-primary hover:text-accent transition-colors flex items-center gap-1">
                       Download Report PDF
                     </button>
