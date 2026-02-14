@@ -1,6 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity } from 'lucide-react';
 import AudioVisualizer from '@/components/AudioVisualizer';
+import { Badge } from '@/components/ui/badge';
+
+const SUPPORTED_LANGUAGES = [
+  { name: 'English', native: 'English', flag: '🌐' },
+  { name: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
+  { name: 'Tamil', native: 'தமிழ்', flag: '🇮🇳' },
+  { name: 'Telugu', native: 'తెలుగు', flag: '🇮🇳' },
+  { name: 'Malayalam', native: 'മലയാളം', flag: '🇮🇳' },
+];
 
 export default function LandingPage() {
   return (
@@ -10,18 +19,33 @@ export default function LandingPage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-50" />
         
         <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-xs font-bold text-primary uppercase tracking-widest mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-xs font-bold text-primary uppercase tracking-widest mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
             <Zap className="h-4 w-4 fill-primary" />
             Next-Gen Voice Classification
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-headline font-bold leading-none mb-6 tracking-tighter">
+          <h1 className="text-6xl md:text-8xl font-headline font-bold leading-none mb-6 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
             AI Voice <span className="text-primary">Detector.</span>
           </h1>
           
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
             State-of-the-art audio forensics. Instantly detect synthetic voices, deepfakes, and automated speech with unprecedented accuracy using the Echolyze API.
           </p>
+
+          {/* Floating Languages */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12 max-w-2xl mx-auto animate-in fade-in duration-1000 delay-500">
+            {SUPPORTED_LANGUAGES.map((lang, i) => (
+              <Badge 
+                key={lang.name} 
+                variant="outline" 
+                className="bg-secondary/20 border-border/50 py-1.5 px-3 flex items-center gap-2 hover:border-primary/50 transition-all hover:scale-105 cursor-default group"
+              >
+                <span className="text-sm">{lang.flag}</span>
+                <span className="font-bold text-[10px] uppercase tracking-wider">{lang.native}</span>
+                <span className="text-[9px] text-muted-foreground group-hover:text-primary transition-colors">({lang.name})</span>
+              </Badge>
+            ))}
+          </div>
 
           {/* Decorative Sound Wave */}
           <div className="max-w-xl mx-auto mb-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
@@ -32,7 +56,7 @@ export default function LandingPage() {
             <AudioVisualizer />
           </div>
           
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-700">
             <Link 
               href="/api-tester" 
               className="bg-primary text-primary-foreground px-10 py-5 rounded-2xl font-bold text-lg hover:shadow-[0_0_30px_rgba(var(--primary),0.3)] transition-all flex items-center gap-2 group"
