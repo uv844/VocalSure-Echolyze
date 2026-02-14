@@ -87,7 +87,7 @@ export default function LandingPage() {
         <div className="text-center mb-16 space-y-4">
            <h2 className="text-4xl font-headline font-bold">Powerful Features</h2>
            <p className="text-muted-foreground text-primary/80 font-medium">
-             Built for accuracy, speed, and security at a national-level hackathon standard.
+             Built for enterprise-grade accuracy, speed, and mission-critical security.
            </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
