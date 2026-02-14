@@ -79,11 +79,13 @@ export default function DetectorPage() {
       setResult(null);
 
       try {
-        const b64 = await fileToBase64(selectedFile);
-        setBase64Input(b64);
+        const fullDataUri = await fileToBase64(selectedFile);
+        // Strip the data URI prefix (e.g. "data:audio/mpeg;base64,")
+        const rawBase64 = fullDataUri.split(',')[1] || fullDataUri;
+        setBase64Input(rawBase64);
         toast({
           title: "File processed",
-          description: "Audio converted to Base64 code automatically.",
+          description: "Audio converted to raw Base64 code automatically.",
         });
       } catch (err) {
         toast({
@@ -105,29 +107,19 @@ export default function DetectorPage() {
       return;
     }
 
-    let audioDataUri = '';
-    
-    if (inputMode === 'upload') {
-      if (!file) {
-        toast({
-          title: "File Required",
-          description: "Please upload an audio file to analyze.",
-          variant: "destructive"
-        });
-        return;
-      }
-      audioDataUri = base64Input;
-    } else {
-      if (!base64Input.trim()) {
-        toast({
-          title: "Base64 Required",
-          description: "Please enter a valid base64 audio string.",
-          variant: "destructive"
-        });
-        return;
-      }
-      audioDataUri = base64Input.startsWith('data:') ? base64Input : `data:audio/mp3;base64,${base64Input}`;
+    if (!base64Input.trim()) {
+      toast({
+        title: "Input Required",
+        description: "Please provide an audio file or base64 string.",
+        variant: "destructive"
+      });
+      return;
     }
+
+    // Ensure we send a valid Data URI to the API
+    const audioDataUri = base64Input.startsWith('data:') 
+      ? base64Input 
+      : `data:audio/mp3;base64,${base64Input}`;
 
     setLoading(true);
     setResult(null);
@@ -156,7 +148,7 @@ export default function DetectorPage() {
       const history = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
       const newEntry = {
         id: Date.now().toString(),
-        fileName: inputMode === 'upload' ? file?.name : 'Base64 Input',
+        fileName: inputMode === 'upload' ? (file?.name || 'Uploaded File') : 'Base64 Input',
         timestamp: new Date().toISOString(),
         ...data
       };
@@ -252,7 +244,7 @@ export default function DetectorPage() {
 
               <Button 
                 onClick={handleAnalyze}
-                disabled={loading || (inputMode === 'upload' ? !file : !base64Input)}
+                disabled={loading || !base64Input}
                 className="w-full h-12"
               >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
