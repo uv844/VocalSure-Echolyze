@@ -7,7 +7,9 @@ import {
   Globe,
   Mic,
   FileAudio,
-  Activity
+  Activity,
+  Bot,
+  User
 } from 'lucide-react';
 import { 
   Card, 
@@ -217,9 +219,16 @@ export default function DetectorPage() {
                       : "border-primary/30 text-primary bg-primary/5 shadow-primary/10"
                   )}>
                     <p className="text-[10px] uppercase font-bold tracking-[0.2em] mb-2 opacity-70">Detection Result</p>
-                    <p className="text-3xl font-headline font-bold">
-                      {result.origin === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}
-                    </p>
+                    <div className="flex items-center justify-center gap-3">
+                      {result.origin === 'AI_GENERATED' ? (
+                        <Bot className="h-8 w-8 text-destructive animate-pulse" />
+                      ) : (
+                        <User className="h-8 w-8 text-primary" />
+                      )}
+                      <p className="text-3xl font-headline font-bold">
+                        {result.origin === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="space-y-2 px-2">
