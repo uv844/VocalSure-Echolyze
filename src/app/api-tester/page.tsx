@@ -135,7 +135,7 @@ export default function DetectorPage() {
           <Card>
             <CardHeader>
               <CardTitle>AI Voice Detector</CardTitle>
-              <CardDescription>Upload audio for Echolyze forensic classification</CardDescription>
+              <CardDescription>Upload audio for forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">

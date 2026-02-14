@@ -68,13 +68,13 @@ export default function DocsPage() {
               <CardContent className="p-6">
                 <p className="mb-4">All API requests must include the <code className="bg-white/10 px-2 py-1 rounded">x-api-key</code> header for validation.</p>
                 <div className="flex items-center justify-between bg-black/20 p-4 rounded-lg font-code text-accent-foreground select-all">
-                  <span>x-api-key: echolyze_hackathon_2026</span>
+                  <span>x-api-key: [SECURE_API_KEY]</span>
                 </div>
               </CardContent>
             </Card>
             <div className="bg-secondary/30 p-4 rounded-xl border flex gap-4">
               <ShieldCheck className="h-6 w-6 text-primary flex-shrink-0" />
-              <p className="text-sm">Use the provided API key for verification. Secure your integrations by never exposing this key in client-side code.</p>
+              <p className="text-sm">Use your unique API key for verification. Secure your integrations by never exposing this key in public client-side code.</p>
             </div>
           </section>
 
@@ -115,7 +115,7 @@ export default function DocsPage() {
                         <pre>
 {`curl -X POST https://YOUR_DOMAIN/api/analyze \\
   -H "Content-Type: application/json" \\
-  -H "x-api-key: echolyze_hackathon_2026" \\
+  -H "x-api-key: [YOUR_API_KEY]" \\
   -d '{
     "audioDataUri": "data:audio/mp3;base64,TU9ZT..."
   }'`}
@@ -129,7 +129,7 @@ export default function DocsPage() {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'x-api-key': 'echolyze_hackathon_2026'
+    'x-api-key': 'YOUR_API_KEY'
   },
   body: JSON.stringify({
     audioDataUri: 'data:audio/mp3;base64,...'
@@ -146,7 +146,7 @@ const data = await response.json();`}
 
 url = "https://YOUR_DOMAIN/api/analyze"
 headers = {
-    "x-api-key": "echolyze_hackathon_2026",
+    "x-api-key": "YOUR_API_KEY",
     "Content-Type": "application/json"
 }
 payload = {
