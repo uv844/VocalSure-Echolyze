@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity, Cpu } from 'lucide-react';
+import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity, Cpu, Gauge } from 'lucide-react';
 import AudioVisualizer from '@/components/AudioVisualizer';
 
 const SUPPORTED_LANGUAGES = [
@@ -83,22 +83,33 @@ export default function LandingPage() {
       </section>
 
       {/* Features Grid */}
-      <section className="container mx-auto px-4 py-32">
-        <div className="grid md:grid-cols-3 gap-10">
+      <section className="container mx-auto px-4 py-32 border-t border-white/5">
+        <div className="text-center mb-16 space-y-4">
+           <h2 className="text-4xl font-headline font-bold">Powerful Features</h2>
+           <p className="text-muted-foreground text-primary/80 font-medium">
+             Built for accuracy, speed, and security at a national-level hackathon standard.
+           </p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <FeatureCard 
-            icon={<ShieldCheck className="h-7 w-7 text-primary" />}
-            title="Biometric Analysis"
-            description="Deep spectral inspection identifying mechanical artifacts unique to synthetic voice models."
+            icon={<Globe className="h-6 w-6 text-primary" />}
+            title="5 Languages"
+            description="Tamil, English, Hindi, Malayalam & Telugu detection support"
           />
           <FeatureCard 
-            icon={<Globe className="h-7 w-7 text-primary" />}
-            title="Polyglot Forensics"
-            description="Specialized linguistic classifiers for English, Hindi, Tamil, Telugu, and Malayalam audio sources."
+            icon={<Activity className="h-6 w-6 text-primary" />}
+            title="Real-time Detection"
+            description="Instant AI vs Human voice classification with detailed analysis"
           />
           <FeatureCard 
-            icon={<Lock className="h-7 w-7 text-primary" />}
-            title="Enterprise Grade"
-            description="Secure API integration for large-scale authentication systems and voice-based identity verification."
+            icon={<Gauge className="h-6 w-6 text-primary" />}
+            title="Confidence Scoring"
+            description="Precision scoring from 0.0 to 1.0 with explanations"
+          />
+          <FeatureCard 
+            icon={<ShieldCheck className="h-6 w-6 text-primary" />}
+            title="Secure API"
+            description="API key authentication with server-side validation"
           />
         </div>
       </section>
@@ -108,12 +119,12 @@ export default function LandingPage() {
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <div className="p-12 rounded-[2.5rem] glass border-white/5 hover:border-primary/20 transition-all group">
-      <div className="mb-8 p-5 bg-primary/10 w-fit rounded-2xl group-hover:scale-110 group-hover:bg-primary/20 transition-all">
+    <div className="p-8 rounded-2xl glass border-white/5 hover:border-primary/20 transition-all group">
+      <div className="mb-6 p-4 bg-primary/10 w-fit rounded-xl group-hover:scale-110 group-hover:bg-primary/20 transition-all">
         {icon}
       </div>
-      <h3 className="text-2xl font-headline font-bold mb-4 tracking-tight">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed text-lg">{description}</p>
+      <h3 className="text-xl font-headline font-bold mb-3 tracking-tight">{title}</h3>
+      <p className="text-muted-foreground leading-relaxed text-sm">{description}</p>
     </div>
   );
 }
