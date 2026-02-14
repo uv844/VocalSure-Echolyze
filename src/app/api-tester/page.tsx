@@ -6,8 +6,7 @@ import {
   Loader2, 
   Globe,
   Mic,
-  FileAudio,
-  Code
+  FileAudio
 } from 'lucide-react';
 import { 
   Card, 
@@ -27,7 +26,6 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const LANGUAGES = [
   { id: 'en', name: 'English', flag: '🇺🇸' },
@@ -133,21 +131,12 @@ export default function DetectorPage() {
           <Card>
             <CardHeader>
               <CardTitle>Audio Analysis</CardTitle>
-              <CardDescription>Upload audio for classification via API</CardDescription>
+              <CardDescription>Upload audio for forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <Alert className="bg-primary/5 border-primary/20">
-                <Code className="h-4 w-4" />
-                <AlertTitle>API Integration</AlertTitle>
-                <AlertDescription className="text-xs">
-                  This tester uses <code>POST /api/analyze</code>. <br/>
-                  Key: <code>echolyze_hackathon_2026</code>
-                </AlertDescription>
-              </Alert>
-
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
-                  <Globe className="h-3 w-3" /> Language
+                  <Globe className="h-3 w-3" /> Spoken Language
                 </label>
                 <Select value={selectedLang} onValueChange={setSelectedLang}>
                   <SelectTrigger>
@@ -175,7 +164,7 @@ export default function DetectorPage() {
                   )}
                 >
                   <Upload className={cn("h-8 w-8 mb-2", file ? "text-primary" : "text-muted-foreground")} />
-                  <p className="text-sm font-medium">{file ? file.name : "Click to upload MP3"}</p>
+                  <p className="text-sm font-medium">{file ? file.name : "Click to upload MP3/WAV"}</p>
                   <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="audio/*" className="hidden" />
                 </div>
               </div>
@@ -195,15 +184,15 @@ export default function DetectorPage() {
         <div className="space-y-6">
           <Card className="h-full">
             <CardHeader>
-              <CardTitle>Results</CardTitle>
+              <CardTitle>Analysis Results</CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-center min-h-[300px]">
               {!result && !loading ? (
-                <p className="text-muted-foreground">Analysis results will appear here</p>
+                <p className="text-muted-foreground">Results will appear here after scanning</p>
               ) : loading ? (
                 <div className="text-center space-y-4">
                   <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
-                  <p className="text-sm">Scanning audio patterns...</p>
+                  <p className="text-sm">Scanning neural patterns...</p>
                 </div>
               ) : (
                 <div className="w-full space-y-6 animate-in fade-in duration-500">
@@ -215,7 +204,7 @@ export default function DetectorPage() {
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-xs font-bold">
-                      <span>Confidence</span>
+                      <span>Forensic Confidence</span>
                       <span>{(result.confidence * 100).toFixed(1)}%</span>
                     </div>
                     <Progress value={result.confidence * 100} />
