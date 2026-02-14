@@ -6,7 +6,8 @@ import {
   Loader2, 
   Globe,
   Mic,
-  FileAudio
+  FileAudio,
+  Activity
 } from 'lucide-react';
 import { 
   Card, 
@@ -26,6 +27,7 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import AudioVisualizer from '@/components/AudioVisualizer';
 
 const LANGUAGES = [
   { id: 'en', name: 'English (English)', flag: '🌐' },
@@ -182,47 +184,67 @@ export default function DetectorPage() {
         </div>
 
         <div className="space-y-6">
-          <Card className="h-full">
+          <Card className="h-full overflow-hidden">
             <CardHeader>
-              <CardTitle>Analysis Results</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                Forensic Console
+              </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center justify-center min-h-[300px]">
+            <CardContent className="flex items-center justify-center min-h-[400px]">
               {!result && !loading ? (
                 <div className="text-center space-y-2">
                   <p className="text-muted-foreground">Results will appear here after scanning</p>
                   <p className="text-[10px] text-muted-foreground/50 uppercase tracking-widest font-bold">Session history enabled</p>
                 </div>
               ) : loading ? (
-                <div className="text-center space-y-4">
-                  <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
-                  <p className="text-sm">Scanning neural patterns...</p>
+                <div className="w-full text-center space-y-8 animate-in fade-in zoom-in duration-300">
+                  <AudioVisualizer />
+                  <div className="space-y-3">
+                    <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />
+                    <div className="space-y-1">
+                      <p className="text-sm font-bold uppercase tracking-widest text-primary animate-pulse">Analyzing Voiceprint</p>
+                      <p className="text-[10px] text-muted-foreground italic">Running neural spectral decomposition...</p>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <div className="w-full space-y-6 animate-in fade-in duration-500">
+                <div className="w-full space-y-6 animate-in fade-in duration-500 slide-in-from-bottom-4">
                   <div className={cn(
-                    "p-4 rounded-lg border-2 text-center font-bold text-xl",
-                    result.origin === 'AI_GENERATED' ? "border-destructive/50 text-destructive bg-destructive/10" : "border-primary/50 text-primary bg-primary/10"
+                    "p-6 rounded-2xl border-2 text-center shadow-lg transition-all",
+                    result.origin === 'AI_GENERATED' 
+                      ? "border-destructive/30 text-destructive bg-destructive/5 shadow-destructive/10" 
+                      : "border-primary/30 text-primary bg-primary/5 shadow-primary/10"
                   )}>
-                    {result.origin === 'AI_GENERATED' ? "AI Generated" : "Authentic Human"}
+                    <p className="text-[10px] uppercase font-bold tracking-[0.2em] mb-2 opacity-70">Detection Result</p>
+                    <p className="text-3xl font-headline font-bold">
+                      {result.origin === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}
+                    </p>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-xs font-bold">
+
+                  <div className="space-y-2 px-2">
+                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                       <span>Forensic Confidence</span>
-                      <span>{(result.confidence * 100).toFixed(1)}%</span>
+                      <span className="text-primary">{(result.confidence * 100).toFixed(1)}%</span>
                     </div>
-                    <Progress value={result.confidence * 100} />
+                    <Progress value={result.confidence * 100} className="h-2" />
                   </div>
-                  <div className="bg-secondary/30 p-4 rounded-lg border text-sm italic">
+
+                  <div className="bg-secondary/30 p-4 rounded-xl border border-border/50 text-sm leading-relaxed text-muted-foreground">
+                    <span className="font-bold text-foreground mr-2">Analyst Note:</span>
                     {result.explanation}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-secondary/20 p-3 rounded-lg border">
+                    <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
                       <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Detected Language</p>
-                      <p className="font-semibold text-sm">{result.detectedLanguage}</p>
+                      <p className="font-semibold text-sm flex items-center gap-2">
+                        <Globe className="h-3 w-3 text-primary" />
+                        {result.detectedLanguage}
+                      </p>
                     </div>
-                    <div className="bg-secondary/20 p-3 rounded-lg border">
-                      <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Lang Confidence</p>
+                    <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
+                      <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Language Score</p>
                       <p className="font-semibold text-sm">{(result.languageConfidence * 100).toFixed(0)}%</p>
                     </div>
                   </div>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,33 +6,38 @@ export default function AudioVisualizer() {
   const [heights, setHeights] = useState<number[]>([]);
 
   useEffect(() => {
-    // Generate initial heights on client only
-    setHeights(Array.from({ length: 30 }, () => Math.random() * 100));
+    // Generate heights only on the client to avoid hydration mismatch
+    const generateHeights = () => Array.from({ length: 40 }, () => Math.random() * 100);
+    setHeights(generateHeights());
     
-    // Optional: make them pulse slowly
+    // Fast interval for a "live analysis" feel
     const interval = setInterval(() => {
-      setHeights(Array.from({ length: 30 }, () => Math.random() * 100));
-    }, 2000);
+      setHeights(generateHeights());
+    }, 100);
     
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="h-12 w-full flex items-end gap-1">
+    <div className="h-24 w-full flex items-center justify-center gap-1.5 px-4">
       {heights.length === 0 ? (
-        // Placeholder for SSR
-        Array.from({ length: 30 }).map((_, i) => (
+        // Placeholder state for initial render/SSR
+        Array.from({ length: 40 }).map((_, i) => (
           <div 
             key={i} 
-            className="flex-1 bg-accent/20 rounded-t-sm h-2" 
+            className="w-1 bg-primary/20 rounded-full h-2" 
           />
         ))
       ) : (
         heights.map((height, i) => (
           <div 
             key={i} 
-            className="flex-1 bg-accent rounded-t-sm transition-[height] duration-1000 ease-in-out" 
-            style={{ height: `${height}%` }} 
+            className="w-1 bg-primary rounded-full transition-all duration-100 ease-in-out opacity-80" 
+            style={{ 
+              height: `${Math.max(10, height)}%`,
+              // Add a slight glow effect to the bars
+              boxShadow: '0 0 10px rgba(var(--primary), 0.3)'
+            }} 
           />
         ))
       )}
