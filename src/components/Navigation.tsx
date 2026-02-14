@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, Terminal, History, BookOpen, ShieldCheck } from 'lucide-react';
+import { Shield, History, BookOpen, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function Navigation() {
