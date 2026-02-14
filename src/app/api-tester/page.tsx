@@ -40,7 +40,7 @@ import AudioVisualizer from '@/components/AudioVisualizer';
 
 const IndiaFlag = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="h-4 w-6 rounded-sm shadow-sm flex-shrink-0">
-    <rect width="900" height="600" fill="#f4c430"/>
+    <rect width="900" height="600" fill="#FF9933"/>
     <rect width="900" height="200" y="200" fill="#fff"/>
     <rect width="900" height="200" y="400" fill="#128807"/>
     <circle cx="450" cy="300" r="40" fill="none" stroke="#000080" strokeWidth="8"/>
