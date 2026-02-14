@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Shield, History, BookOpen, ShieldCheck } from 'lucide-react';
+import { Shield, History, BookOpen, ShieldCheck, Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function Navigation() {
   const pathname = usePathname();
 
   const links = [
+    { href: '/', label: 'Home', icon: Home },
     { href: '/api-tester', label: 'Detector', icon: Shield },
     { href: '/docs', label: 'Docs', icon: BookOpen },
     { href: '/history', label: 'History', icon: History },
