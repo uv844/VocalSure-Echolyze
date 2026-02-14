@@ -40,13 +40,12 @@ export async function POST(req: NextRequest) {
       throw new Error('Language detection failed to return a result.');
     }
 
-    // 4. Combine results
+    // 4. Combine results (Aligned with simplified Documentation schema)
     const combinedResponse = {
-      ...originResult,
+      origin: originResult.origin,
+      confidence: originResult.confidence,
+      explanation: originResult.explanation,
       detectedLanguage: languageResult.detectedLanguage,
-      languageConfidence: languageResult.confidenceScore,
-      languageMatchVerdict: languageResult.languageMatchVerdict,
-      analysisGuidance: languageResult.analysisGuidance,
       timestamp: new Date().toISOString()
     };
 
