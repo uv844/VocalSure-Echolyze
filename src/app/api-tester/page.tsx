@@ -134,8 +134,8 @@ export default function DetectorPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Audio Analysis</CardTitle>
-              <CardDescription>Upload audio for forensic classification</CardDescription>
+              <CardTitle>AI Voice Detector</CardTitle>
+              <CardDescription>Upload audio for Echolyze forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -179,7 +179,7 @@ export default function DetectorPage() {
                 className="w-full h-12"
               >
                 {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
-                Analyze Voice
+                Run Detection
               </Button>
             </CardContent>
           </Card>
@@ -190,7 +190,7 @@ export default function DetectorPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Activity className="h-5 w-5 text-primary" />
-                Forensic Console
+                Forensic Analysis
               </CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-center min-h-[400px]">
@@ -206,7 +206,7 @@ export default function DetectorPage() {
                     <Loader2 className="h-6 w-6 animate-spin mx-auto text-primary" />
                     <div className="space-y-1">
                       <p className="text-sm font-bold uppercase tracking-widest text-primary animate-pulse">Analyzing Voiceprint</p>
-                      <p className="text-[10px] text-muted-foreground italic">Running neural spectral decomposition...</p>
+                      <p className="text-[10px] text-muted-foreground italic">Running Echolyze spectral decomposition...</p>
                     </div>
                   </div>
                 </div>

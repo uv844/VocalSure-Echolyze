@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Shield, ArrowRight, Zap, Globe, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Zap, Globe, Lock, ShieldCheck } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -15,11 +15,11 @@ export default function LandingPage() {
           </div>
           
           <h1 className="text-6xl md:text-8xl font-headline font-bold leading-none mb-6 tracking-tighter">
-            Identify AI <span className="text-primary">Clones.</span>
+            AI Voice <span className="text-primary">Detector.</span>
           </h1>
           
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            State-of-the-art audio forensics. Instantly detect synthetic voices, deepfakes, and automated speech with unprecedented accuracy.
+            State-of-the-art audio forensics. Instantly detect synthetic voices, deepfakes, and automated speech with unprecedented accuracy using the Echolyze API.
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
@@ -33,7 +33,7 @@ export default function LandingPage() {
               href="/docs" 
               className="bg-secondary text-foreground border border-border/50 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-secondary/80 transition-all"
             >
-              Developer Documentation
+              Echolyze API Docs
             </Link>
           </div>
         </div>
@@ -50,12 +50,12 @@ export default function LandingPage() {
           <FeatureCard 
             icon={<Globe className="h-8 w-8 text-primary" />}
             title="Global Language Support"
-            description="Deep analysis across 40+ major languages and dialects, ensuring forensic precision worldwide."
+            description="Deep analysis across Hindi, Tamil, Telugu, Malayalam, and English, ensuring forensic precision."
           />
           <FeatureCard 
             icon={<Lock className="h-8 w-8 text-primary" />}
             title="Production-Ready API"
-            description="Easily integrate classification into your security workflow with our robust RESTful endpoints."
+            description="Easily integrate classification into your security workflow with our robust Echolyze API endpoints."
           />
         </div>
       </section>

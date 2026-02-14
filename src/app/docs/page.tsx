@@ -28,7 +28,7 @@ export default function DocsPage() {
         {/* Sidebar Nav (Desktop) */}
         <aside className="hidden lg:block space-y-8">
           <div className="space-y-4 sticky top-24">
-            <h3 className="font-bold text-sm uppercase tracking-widest text-muted-foreground">Documentation</h3>
+            <h3 className="font-bold text-sm uppercase tracking-widest text-muted-foreground">API Reference</h3>
             <nav className="flex flex-col gap-2">
               <a href="#introduction" className="text-sm font-medium hover:text-accent transition-colors py-1">Introduction</a>
               <a href="#authentication" className="text-sm font-medium hover:text-accent transition-colors py-1">Authentication</a>
@@ -42,9 +42,9 @@ export default function DocsPage() {
         {/* Main Content */}
         <div className="lg:col-span-3 space-y-16">
           <section id="introduction">
-            <h1 className="text-5xl font-headline font-bold text-primary mb-6">EchoLyze Pro API</h1>
+            <h1 className="text-5xl font-headline font-bold text-primary mb-6">Echolyze API</h1>
             <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-              Integrate world-class voice forensic analysis into your application. Our RESTful API provides real-time classification for audio authenticity.
+              Integrate world-class voice forensic analysis into your application. Our Echolyze API provides real-time classification for audio authenticity.
             </p>
             {docsImage && (
               <div className="relative aspect-video rounded-2xl overflow-hidden border shadow-sm mb-8">
@@ -68,13 +68,13 @@ export default function DocsPage() {
               <CardContent className="p-6">
                 <p className="mb-4">All API requests must include the <code className="bg-white/10 px-2 py-1 rounded">x-api-key</code> header for validation.</p>
                 <div className="flex items-center justify-between bg-black/20 p-4 rounded-lg font-code text-accent-foreground select-all">
-                  <span>x-api-key: [YOUR_API_KEY]</span>
+                  <span>x-api-key: echolyze_hackathon_2026</span>
                 </div>
               </CardContent>
             </Card>
             <div className="bg-secondary/30 p-4 rounded-xl border flex gap-4">
               <ShieldCheck className="h-6 w-6 text-primary flex-shrink-0" />
-              <p className="text-sm">The default API key for the hackathon is <code>echolyze_hackathon_2026</code>. Never expose this key in client-side code.</p>
+              <p className="text-sm">Use the provided API key for verification. Secure your integrations by never exposing this key in client-side code.</p>
             </div>
           </section>
 

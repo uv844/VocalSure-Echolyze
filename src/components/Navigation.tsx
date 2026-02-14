@@ -10,7 +10,7 @@ export default function Navigation() {
 
   const links = [
     { href: '/api-tester', label: 'Detector', icon: Shield },
-    { href: '/docs', label: 'API Docs', icon: BookOpen },
+    { href: '/docs', label: 'Echolyze API', icon: BookOpen },
     { href: '/history', label: 'History', icon: History },
   ];
 
@@ -23,10 +23,10 @@ export default function Navigation() {
           </div>
           <div className="flex flex-col">
             <span className="font-headline text-xl font-bold tracking-tight text-foreground">
-              EchoLyze
+              AI Voice Detector
             </span>
             <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-              AI Voice Forensics
+              Powered by Echolyze
             </span>
           </div>
         </Link>
