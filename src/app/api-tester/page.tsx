@@ -39,7 +39,7 @@ import { cn } from '@/lib/utils';
 import AudioVisualizer from '@/components/AudioVisualizer';
 
 const IndiaFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="h-4 w-6 rounded-sm shadow-sm">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="h-4 w-6 rounded-sm shadow-sm flex-shrink-0">
     <rect width="900" height="600" fill="#f4c430"/>
     <rect width="900" height="200" y="200" fill="#fff"/>
     <rect width="900" height="200" y="400" fill="#128807"/>
@@ -49,7 +49,7 @@ const IndiaFlag = () => (
 );
 
 const USFlag = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650" className="h-4 w-6 rounded-sm shadow-sm">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650" className="h-4 w-6 rounded-sm shadow-sm flex-shrink-0">
     <rect width="1235" height="650" fill="#bf0a30"/>
     <path d="M0 50h1235M0 150h1235M0 250h1235M0 350h1235M0 450h1235M0 550h1235" stroke="#fff" strokeWidth="50"/>
     <rect width="494" height="350" fill="#002868"/>
@@ -129,7 +129,7 @@ export default function DetectorPage() {
     if (!userApiKey) {
       toast({
         title: "API Key Required",
-        description: "Please enter your Echolyze API key (echolyze_hackathon_2026).",
+        description: "Please enter your Echolyze API key.",
         variant: "destructive"
       });
       return;
