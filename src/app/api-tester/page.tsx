@@ -11,7 +11,9 @@ import {
   Bot,
   User,
   Key,
-  Code
+  Code,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { 
   Card, 
@@ -48,6 +50,7 @@ export default function DetectorPage() {
   const [file, setFile] = useState<File | null>(null);
   const [base64Input, setBase64Input] = useState<string>('');
   const [userApiKey, setUserApiKey] = useState<string>('');
+  const [showApiKey, setShowApiKey] = useState(false);
   const [inputMode, setInputMode] = useState<'upload' | 'base64'>('upload');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -80,7 +83,6 @@ export default function DetectorPage() {
 
       try {
         const fullDataUri = await fileToBase64(selectedFile);
-        // Strip the data URI prefix (e.g. "data:audio/mpeg;base64,")
         const rawBase64 = fullDataUri.split(',')[1] || fullDataUri;
         setBase64Input(rawBase64);
         toast({
@@ -116,7 +118,6 @@ export default function DetectorPage() {
       return;
     }
 
-    // Ensure we send a valid Data URI to the API
     const audioDataUri = base64Input.startsWith('data:') 
       ? base64Input 
       : `data:audio/mp3;base64,${base64Input}`;
@@ -179,13 +180,24 @@ export default function DetectorPage() {
                 <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-2">
                   <Key className="h-3 w-3" /> API Key
                 </label>
-                <Input 
-                  type="password"
-                  placeholder="Enter your x-api-key"
-                  value={userApiKey}
-                  onChange={(e) => setUserApiKey(e.target.value)}
-                  className="bg-secondary/20 border-border/50"
-                />
+                <div className="relative">
+                  <Input 
+                    type={showApiKey ? "text" : "password"}
+                    placeholder="Enter your x-api-key"
+                    value={userApiKey}
+                    onChange={(e) => setUserApiKey(e.target.value)}
+                    className="bg-secondary/20 border-border/50 pr-10"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setShowApiKey(!showApiKey)}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-transparent"
+                  >
+                    {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                </div>
               </div>
 
               <div className="space-y-2">
