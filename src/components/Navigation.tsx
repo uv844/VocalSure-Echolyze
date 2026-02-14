@@ -10,7 +10,7 @@ export default function Navigation() {
 
   const links = [
     { href: '/api-tester', label: 'Detector', icon: Shield },
-    { href: '/docs', label: 'Echolyze API', icon: BookOpen },
+    { href: '/docs', label: 'Docs', icon: BookOpen },
     { href: '/history', label: 'History', icon: History },
   ];
 

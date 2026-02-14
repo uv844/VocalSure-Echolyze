@@ -129,7 +129,7 @@ export default function DocsPage() {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'x-api-key': 'YOUR_API_KEY'
+    'x-api-key': '[YOUR_API_KEY]'
   },
   body: JSON.stringify({
     audioDataUri: 'data:audio/mp3;base64,...'
@@ -146,7 +146,7 @@ const data = await response.json();`}
 
 url = "https://YOUR_DOMAIN/api/analyze"
 headers = {
-    "x-api-key": "YOUR_API_KEY",
+    "x-api-key": "[YOUR_API_KEY]",
     "Content-Type": "application/json"
 }
 payload = {
