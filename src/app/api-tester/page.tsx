@@ -38,12 +38,42 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import AudioVisualizer from '@/components/AudioVisualizer';
 
+const IndiaFlag = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="h-4 w-6 rounded-sm shadow-sm">
+    <rect width="900" height="600" fill="#f4c430"/>
+    <rect width="900" height="200" y="200" fill="#fff"/>
+    <rect width="900" height="200" y="400" fill="#128807"/>
+    <circle cx="450" cy="300" r="40" fill="none" stroke="#000080" strokeWidth="8"/>
+    <circle cx="450" cy="300" r="10" fill="#000080"/>
+  </svg>
+);
+
+const USFlag = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650" className="h-4 w-6 rounded-sm shadow-sm">
+    <rect width="1235" height="650" fill="#bf0a30"/>
+    <path d="M0 50h1235M0 150h1235M0 250h1235M0 350h1235M0 450h1235M0 550h1235" stroke="#fff" strokeWidth="50"/>
+    <rect width="494" height="350" fill="#002868"/>
+    <g fill="#fff">
+      {[...Array(5)].map((_, row) => (
+        [...Array(6)].map((_, col) => (
+          <circle key={`row1-${row}-${col}`} cx={41 + col * 82} cy={35 + row * 70} r="6" />
+        ))
+      ))}
+      {[...Array(4)].map((_, row) => (
+        [...Array(5)].map((_, col) => (
+          <circle key={`row2-${row}-${col}`} cx={82 + col * 82} cy={70 + row * 70} r="6" />
+        ))
+      ))}
+    </g>
+  </svg>
+);
+
 const LANGUAGES = [
-  { id: 'en', name: 'English (English)', flag: '🌐' },
-  { id: 'hi', name: 'हिन्दी (Hindi)', flag: '🇮🇳' },
-  { id: 'ta', name: 'தமிழ் (Tamil)', flag: '🇮🇳' },
-  { id: 'te', name: 'తెలుగు (Telugu)', flag: '🇮🇳' },
-  { id: 'ml', name: 'മലയാളം (Malayalam)', flag: '🇮🇳' },
+  { id: 'en', name: 'English (English)', flag: <USFlag /> },
+  { id: 'hi', name: 'हिन्दी (Hindi)', flag: <IndiaFlag /> },
+  { id: 'ta', name: 'தமிழ் (Tamil)', flag: <IndiaFlag /> },
+  { id: 'te', name: 'తెలుగు (Telugu)', flag: <IndiaFlag /> },
+  { id: 'ml', name: 'മലയാളം (Malayalam)', flag: <IndiaFlag /> },
 ];
 
 export default function DetectorPage() {
@@ -211,7 +241,10 @@ export default function DetectorPage() {
                   <SelectContent>
                     {LANGUAGES.map((lang) => (
                       <SelectItem key={lang.id} value={lang.name}>
-                        {lang.flag} {lang.name}
+                        <div className="flex items-center gap-3">
+                          {lang.flag}
+                          <span>{lang.name}</span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
