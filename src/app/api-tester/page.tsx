@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef } from 'react';
@@ -109,7 +110,6 @@ export default function DetectorPage() {
         const rawBase64 = fullDataUri.split(',')[1] || fullDataUri;
         setBase64Input(rawBase64);
         
-        // Success toast for base64 generation
         toast({
           title: "Base64 Generated",
           description: "Audio file has been successfully converted to base64 format.",
