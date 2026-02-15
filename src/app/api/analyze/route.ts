@@ -6,7 +6,7 @@ const EXPECTED_API_KEY = 'echolyze_key_2026';
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Validate internal Echolyze API Key
+    // 1. Validate internal Vocalsure API Key
     const apiKey = req.headers.get('x-api-key');
     if (apiKey !== EXPECTED_API_KEY) {
       return NextResponse.json(

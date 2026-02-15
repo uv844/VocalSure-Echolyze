@@ -24,10 +24,10 @@ export default function Navigation() {
           </div>
           <div className="flex flex-col">
             <span className="font-body text-xl font-bold tracking-tight text-foreground leading-none">
-              AI Voice Detector
+              Vocalsure
             </span>
             <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium mt-1">
-              Powered by Echolyze
+              AI Voice Audit
             </span>
           </div>
         </Link>

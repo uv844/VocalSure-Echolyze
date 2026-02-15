@@ -2,7 +2,7 @@ import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 
 /**
- * Genkit configuration for AI Voice Detector.
+ * Genkit configuration for Vocalsure AI.
  * We use the string identifier for models to ensure maximum stability and avoid build errors.
  */
 export const ai = genkit({

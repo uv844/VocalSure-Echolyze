@@ -47,7 +47,7 @@ export default function LandingPage() {
       <section className="relative pt-32 pb-24 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-7xl md:text-9xl font-headline font-bold leading-[0.9] mb-4 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
-            AI Voice <span className="text-primary italic">Detector</span>
+            Vocalsure <span className="text-primary italic">Audit</span>
           </h1>
 
           <h2 className="text-3xl md:text-5xl font-headline font-bold text-muted-foreground/80 mb-8 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
@@ -55,7 +55,7 @@ export default function LandingPage() {
           </h2>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-            Forensic-grade audio classification. Distinguish between human speech and synthetic deepfakes with the precision of Echolyze AI.
+            Forensic-grade audio classification. Distinguish between human speech and synthetic deepfakes with the precision of Vocalsure AI.
           </p>
 
           {/* Floating Language Tabs */}
@@ -101,7 +101,7 @@ export default function LandingPage() {
               href="/docs" 
               className="glass px-12 py-6 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all border-white/5"
             >
-              Echolyze API Docs
+              Vocalsure API Docs
             </Link>
           </div>
         </div>

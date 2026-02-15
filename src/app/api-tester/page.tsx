@@ -117,7 +117,7 @@ export default function DetectorPage() {
 
   const handleAnalyze = async () => {
     if (!userApiKey) {
-      toast({ title: "API Key Required", description: "Please enter your Echolyze API key", variant: "destructive" });
+      toast({ title: "API Key Required", description: "Please enter your Vocalsure API key", variant: "destructive" });
       return;
     }
 
@@ -160,7 +160,7 @@ export default function DetectorPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>AI Voice Detector</CardTitle>
+              <CardTitle>Vocalsure AI Detector</CardTitle>
               <CardDescription>Provide audio for forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -169,12 +169,12 @@ export default function DetectorPage() {
                   <Key className="h-3 w-3" /> API Key
                 </label>
                 <div className="relative">
-                  <Input 
+                  <input 
                     type={showApiKey ? "text" : "password"}
                     placeholder="Enter your API key"
                     value={userApiKey}
                     onChange={(e) => setUserApiKey(e.target.value)}
-                    className="bg-secondary/20 border-border/50 pr-10"
+                    className="flex h-10 w-full rounded-md border border-input bg-secondary/20 px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pr-10"
                   />
                   <Button
                     type="button"

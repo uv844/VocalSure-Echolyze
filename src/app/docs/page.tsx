@@ -29,7 +29,7 @@ export default function DocsPage() {
               <Code className="h-10 w-10 text-primary" />
             </div>
           </div>
-          <h1 className="text-5xl font-headline font-bold text-primary mb-6 uppercase">ECHOLYZE API</h1>
+          <h1 className="text-5xl font-headline font-bold text-primary mb-6 uppercase">VOCALSURE API</h1>
           <p className="text-xl text-muted-foreground leading-relaxed mb-8 mx-auto max-w-2xl">
             Integrate world-class voice forensic analysis into your application. Our API provides real-time classification for audio authenticity.
           </p>

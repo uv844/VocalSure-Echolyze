@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
-  title: 'AI Voice Detector | Echolyze API',
+  title: 'Vocalsure | AI Voice Detector',
   description: 'Forensic-grade audio analysis to distinguish between authentic human speech and AI-generated clones.',
 };
 
@@ -29,10 +29,10 @@ export default function RootLayout({
           <div className="container mx-auto px-4 text-center">
             <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-2">
-                <span className="font-headline font-bold text-lg">AI Voice Detector</span>
+                <span className="font-headline font-bold text-lg">Vocalsure</span>
               </div>
               <div className="text-sm text-muted-foreground">
-                &copy; 2026 Echolyze
+                &copy; 2026 Vocalsure
               </div>
               <div className="flex gap-8 text-xs font-bold uppercase tracking-widest text-muted-foreground/50">
                 <a href="#" className="hover:text-primary transition-colors">Privacy</a>
