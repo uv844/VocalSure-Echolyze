@@ -19,15 +19,15 @@ export default function Navigation() {
     <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/60 backdrop-blur-xl">
       <div className="container mx-auto px-4 flex h-24 items-center justify-between">
         <Link href="/" className="flex items-center gap-4 group">
-          <div className="bg-primary/10 p-2.5 rounded-2xl border border-primary/20 transition-all group-hover:bg-primary/20 group-hover:scale-105">
+          <div className="bg-primary/10 p-2.5 rounded-2xl border border-primary/20 transition-all group-hover:bg-primary/20 group-hover:scale-105 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
             <Shield className="h-7 w-7 text-primary" />
           </div>
           <div className="flex flex-col">
-            <span className="font-body text-xl font-bold tracking-tight text-foreground leading-none">
-              Vocalsure
+            <span className="font-headline text-2xl font-bold tracking-tight text-foreground leading-none">
+              VocalSure
             </span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium mt-1">
-              AI Voice Audit
+            <span className="text-[10px] text-muted-foreground font-medium mt-1 tracking-wider">
+              Powered by Echolyze
             </span>
           </div>
         </Link>

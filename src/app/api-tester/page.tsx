@@ -116,7 +116,7 @@ export default function DetectorPage() {
 
   const handleAnalyze = async () => {
     if (!userApiKey) {
-      toast({ title: "API Key Required", description: "Please enter your Vocalsure API key", variant: "destructive" });
+      toast({ title: "API Key Required", description: "Please enter your VocalSure API key", variant: "destructive" });
       return;
     }
 
@@ -158,7 +158,7 @@ export default function DetectorPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Vocalsure AI Detector</CardTitle>
+              <CardTitle>VocalSure AI Detector</CardTitle>
               <CardDescription>Provide audio for forensic classification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
