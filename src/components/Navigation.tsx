@@ -20,20 +20,23 @@ const LogoIcon = ({ className }: { className?: string }) => (
     xmlns="http://www.w3.org/2000/svg" 
     className={className}
   >
+    {/* Shield Outline */}
     <path 
-      d="M50 12 L85 22 C85 50 75 78 50 92 C25 78 15 50 15 22 L50 12Z" 
+      d="M50 12 L82 24 V48 C82 72 50 88 50 88 C50 88 18 72 18 48 V24 L50 12Z" 
       stroke="currentColor" 
       strokeWidth="5" 
       strokeLinecap="round" 
       strokeLinejoin="round"
     />
+    {/* Waveform Line */}
     <path 
-      d="M30 52 H40 L44 40 L50 64 L54 52" 
+      d="M30 52 H38 L43 40 L50 64 L54 52" 
       stroke="currentColor" 
       strokeWidth="5" 
       strokeLinecap="round" 
       strokeLinejoin="round"
     />
+    {/* Checkmark */}
     <path 
       d="M62 48 L68 56 L80 40" 
       stroke="currentColor" 
@@ -41,9 +44,24 @@ const LogoIcon = ({ className }: { className?: string }) => (
       strokeLinecap="round" 
       strokeLinejoin="round"
     />
+    {/* Microphone Capsule */}
     <rect x="47" y="68" width="6" height="10" rx="3" fill="currentColor"/>
-    <path d="M43 74 C43 78 45 81 50 81 C55 81 57 78 57 74" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
-    <line x1="50" y1="81" x2="50" y2="85" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+    {/* Microphone Stand/Base */}
+    <path 
+      d="M43 74 C43 78 45 81 50 81 C55 81 57 78 57 74" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round"
+    />
+    <line 
+      x1="50" 
+      y1="81" 
+      x2="50" 
+      y2="85" 
+      stroke="currentColor" 
+      strokeWidth="2.5" 
+      strokeLinecap="round"
+    />
   </svg>
 );
 
@@ -109,7 +127,9 @@ export default function Navigation() {
             <SheetContent side="right" className="bg-background/95 backdrop-blur-2xl border-white/5">
               <SheetHeader className="text-left mb-8">
                 <SheetTitle className="flex items-center gap-3">
-                  <LogoIcon className="h-8 w-8 text-primary" />
+                  <div className="bg-primary/10 p-2 rounded-xl border border-primary/20">
+                    <LogoIcon className="h-8 w-8 text-primary" />
+                  </div>
                   <span className="font-headline font-bold">VocalSure</span>
                 </SheetTitle>
               </SheetHeader>
