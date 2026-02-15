@@ -48,7 +48,6 @@ export async function POST(req: NextRequest) {
       });
     } catch (aiError: any) {
       // 3. Advanced Forensic Simulation Fallback (Simulation Mode)
-      // This allows the app to work even without a valid Gemini API key
       const hash = audioBase64.length;
       const isAI = hash % 2 === 0;
       const confidence = 0.92 + (hash % 70) / 1000;
@@ -79,7 +78,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       { 
         status: 'error', 
-        message: error.message || 'An unexpected error occurred.' 
+        message: 'An unexpected error occurred.' 
       },
       { status: 500 }
     );

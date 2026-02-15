@@ -2,7 +2,9 @@ import {
   Lock, 
   Send,
   Code,
-  Copy
+  AlertCircle,
+  FileX,
+  ShieldAlert
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { 
@@ -13,7 +15,6 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
-import { Button } from '@/components/ui/button';
 
 export default function DocsPage() {
   return (
@@ -52,7 +53,7 @@ export default function DocsPage() {
                   <TableRow className="border-white/5">
                     <TableCell className="font-code text-accent font-bold">language</TableCell>
                     <TableCell>string</TableCell>
-                    <TableCell className="text-muted-foreground">Tamil / English / Hindi / Malayalam / Telugu</TableCell>
+                    <TableCell className="text-muted-foreground">Tamil / English (US) / Hindi / Malayalam / Telugu</TableCell>
                   </TableRow>
                   <TableRow className="border-white/5">
                     <TableCell className="font-code text-accent font-bold">audioFormat</TableCell>
@@ -62,7 +63,7 @@ export default function DocsPage() {
                   <TableRow className="border-white/5">
                     <TableCell className="font-code text-accent font-bold">audioBase64</TableCell>
                     <TableCell>string</TableCell>
-                    <TableCell className="text-muted-foreground">Base64-encoded MP3 audio</TableCell>
+                    <TableCell className="text-muted-foreground">Base64-encoded audio string (MP3)</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -71,7 +72,7 @@ export default function DocsPage() {
             <div className="relative group">
               <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-blue-300 shadow-2xl border border-white/5">
                 <pre>{`{
-  "language": "Tamil",
+  "language": "English (US)",
   "audioFormat": "mp3",
   "audioBase64": "SUQZBAAAAAAAI1RTUOUAA/..."
 }`}</pre>
@@ -88,26 +89,52 @@ export default function DocsPage() {
               <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-green-300 shadow-2xl border border-white/5">
                 <pre>{`{
   "status": "success",
-  "language": "Tamil",
+  "language": "English (US)",
   "classification": "AI_GENERATED",
-  "confidenceScore": 0.91,
-  "explanation": "Unnatural pitch consistency detected..."
+  "confidenceScore": 0.96,
+  "explanation": "Forensic scan detected characteristic phase-alignment artifacts...",
+  "timestamp": "2026-05-20T14:30:00Z"
 }`}</pre>
               </div>
             </div>
           </div>
 
-          {/* Error Response */}
+          {/* Error Definitions */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <h2 className="text-3xl font-headline font-bold">Error Response</h2>
+              <AlertCircle className="h-6 w-6 text-destructive" />
+              <h2 className="text-3xl font-headline font-bold">API Errors</h2>
             </div>
-            <div className="relative group">
-              <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-red-300 shadow-2xl border border-white/5">
-                <pre>{`{
-  "status": "error",
-  "message": "Invalid API Key"
-}`}</pre>
+            
+            <div className="grid gap-4">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/20 border border-white/5">
+                <div className="bg-destructive/10 p-2 rounded-lg">
+                  <Lock className="h-5 w-5 text-destructive" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground">401 Unauthorized</h3>
+                  <p className="text-sm text-muted-foreground">Invalid or missing <code className="text-accent">x-api-key</code> header. Ensure you are using the correct secret key.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/20 border border-white/5">
+                <div className="bg-amber-500/10 p-2 rounded-lg">
+                  <FileX className="h-5 w-5 text-amber-500" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground">400 Bad Request</h3>
+                  <p className="text-sm text-muted-foreground">The request is missing the required <code className="text-accent">audioBase64</code> payload or contains malformed data.</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-secondary/20 border border-white/5">
+                <div className="bg-muted p-2 rounded-lg">
+                  <ShieldAlert className="h-5 w-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground">500 Internal Server Error</h3>
+                  <p className="text-sm text-muted-foreground">An unexpected error occurred on our analysis engine. Please try again later.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -119,8 +146,13 @@ export default function DocsPage() {
             <h2 className="text-3xl font-headline font-bold">Authentication</h2>
           </div>
           <p className="text-center text-muted-foreground text-sm">
-            All API requests must include your private <code className="bg-secondary px-2 py-1 rounded">x-api-key</code> header.
+            All API requests must include your private authentication header. Use the key provided in your dashboard.
           </p>
+          <div className="flex justify-center font-code text-xs">
+            <span className="bg-secondary px-4 py-2 rounded-full border border-white/5 text-muted-foreground">
+              Header: <span className="text-accent">x-api-key</span>
+            </span>
+          </div>
         </section>
       </div>
     </div>
