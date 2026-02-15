@@ -47,7 +47,7 @@ export default function LandingPage() {
       <section className="relative pt-32 pb-24 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-7xl md:text-9xl font-headline font-bold leading-[0.9] mb-4 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
-            <span className="text-primary italic block md:inline mt-4 md:mt-0">AI Voice Detector</span>
+            <span className="text-white italic block md:inline mt-4 md:mt-0">AI Voice Detector</span>
           </h1>
 
           <h2 className="text-3xl md:text-5xl font-headline font-bold text-muted-foreground/80 mb-8 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
@@ -65,8 +65,8 @@ export default function LandingPage() {
                 key={lang.name} 
                 className="group relative animate-float"
                 style={{ 
-                  animationDelay: `${i * 0.4}s`,
-                  animationDuration: `${3.5 + i * 0.5}s`
+                  animationDelay: `${i * 0.25}s`,
+                  animationDuration: `${2.3 + i * 0.3}s`
                 }}
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
