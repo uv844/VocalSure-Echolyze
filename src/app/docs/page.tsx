@@ -4,7 +4,9 @@ import {
   Code,
   AlertCircle,
   FileX,
-  ShieldAlert
+  ShieldAlert,
+  Globe,
+  Terminal
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { 
@@ -33,8 +35,23 @@ export default function DocsPage() {
           </p>
         </section>
 
-        {/* Request Details */}
+        {/* Endpoint Details */}
         <section id="endpoint" className="space-y-12">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <Terminal className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-headline font-bold">API Endpoint</h2>
+            </div>
+            <div className="bg-secondary/20 border border-white/5 rounded-2xl p-6 flex items-center justify-between group">
+              <div className="flex items-center gap-4">
+                <span className="bg-primary text-primary-foreground px-3 py-1 rounded-md text-xs font-bold uppercase">POST</span>
+                <code className="text-accent font-code font-bold text-lg">/api/analyze</code>
+              </div>
+              <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Production URL</span>
+            </div>
+          </div>
+
+          {/* Request Details */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <Send className="h-6 w-6 text-primary" />
@@ -82,6 +99,7 @@ export default function DocsPage() {
           {/* Response Details */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
+              <Globe className="h-6 w-6 text-primary" />
               <h2 className="text-3xl font-headline font-bold">Success Response</h2>
             </div>
             <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-green-300 shadow-2xl border border-white/5">
