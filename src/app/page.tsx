@@ -59,11 +59,15 @@ export default function LandingPage() {
           </p>
 
           {/* Floating Language Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-16 max-w-3xl mx-auto animate-in fade-in duration-1000 delay-500">
+          <div className="flex flex-wrap justify-center gap-4 mb-16 max-w-4xl mx-auto">
             {SUPPORTED_LANGUAGES.map((lang, i) => (
               <div 
                 key={lang.name} 
-                className="group relative"
+                className="group relative animate-float"
+                style={{ 
+                  animationDelay: `${i * 0.7}s`,
+                  animationDuration: `${5 + i}s`
+                }}
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                 <div className="relative flex items-center gap-3 px-6 py-3 bg-secondary/40 backdrop-blur-xl border border-white/5 rounded-full shadow-2xl transition-all group-hover:border-primary/50 group-hover:translate-y-[-2px]">
