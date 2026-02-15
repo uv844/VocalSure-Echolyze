@@ -30,13 +30,13 @@ export default function HistoryPage() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    const savedHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
+    const savedHistory = JSON.parse(sessionStorage.getItem('vocalsure_history') || '[]');
     setHistory(savedHistory);
   }, []);
 
   const clearHistory = () => {
     if (confirm('Are you sure you want to clear this session\'s history?')) {
-      sessionStorage.removeItem('echolyze_history');
+      sessionStorage.removeItem('vocalsure_history');
       setHistory([]);
     }
   };

@@ -33,7 +33,6 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import AudioVisualizer from '@/components/AudioVisualizer';
@@ -137,9 +136,8 @@ export default function DetectorPage() {
       const data = await response.json();
       if (data.status === 'error') throw new Error(data.message || data.error);
       
-      // Save to history with an internal timestamp for project use
-      const currentHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
-      sessionStorage.setItem('echolyze_history', JSON.stringify([{
+      const currentHistory = JSON.parse(sessionStorage.getItem('vocalsure_history') || '[]');
+      sessionStorage.setItem('vocalsure_history', JSON.stringify([{
         id: Date.now(),
         fileName: file?.name || 'Manual Input',
         timestamp: new Date().toISOString(),
