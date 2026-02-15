@@ -65,8 +65,8 @@ export default function LandingPage() {
                 key={lang.name} 
                 className="group relative animate-float"
                 style={{ 
-                  animationDelay: `${i * 0.7}s`,
-                  animationDuration: `${5 + i}s`
+                  animationDelay: `${i * 0.4}s`,
+                  animationDuration: `${3.5 + i * 0.5}s`
                 }}
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
