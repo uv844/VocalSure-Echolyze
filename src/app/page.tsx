@@ -47,7 +47,7 @@ export default function LandingPage() {
       <section className="relative pt-32 pb-24 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-7xl md:text-9xl font-headline font-bold leading-[0.9] mb-4 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
-            VocalSure <span className="text-primary italic">Audit</span>
+            VocalSure <span className="text-primary italic block md:inline mt-4 md:mt-0">AI Voice Detector</span>
           </h1>
 
           <h2 className="text-3xl md:text-5xl font-headline font-bold text-muted-foreground/80 mb-8 tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">

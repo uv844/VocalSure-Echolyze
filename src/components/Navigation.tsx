@@ -26,8 +26,8 @@ export default function Navigation() {
             <span className="font-headline text-2xl font-bold tracking-tight text-foreground leading-none">
               VocalSure
             </span>
-            <span className="text-[10px] text-muted-foreground font-medium mt-1 tracking-wider">
-              Powered by Echolyze
+            <span className="text-[10px] text-muted-foreground font-bold mt-1 tracking-widest uppercase">
+              AI Voice Detector
             </span>
           </div>
         </Link>
