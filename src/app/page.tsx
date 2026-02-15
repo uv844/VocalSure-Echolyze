@@ -4,7 +4,7 @@ import AudioVisualizer from '@/components/AudioVisualizer';
 
 const IndiaFlag = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" className="h-5 w-7 rounded-sm shadow-sm">
-    <rect width="900" height="600" fill="#f4c430"/>
+    <rect width="900" height="600" fill="#FF9933"/>
     <rect width="900" height="200" y="200" fill="#fff"/>
     <rect width="900" height="200" y="400" fill="#128807"/>
     <circle cx="450" cy="300" r="40" fill="none" stroke="#000080" strokeWidth="8"/>
@@ -46,11 +46,6 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-10 animate-in fade-in slide-in-from-top-4 duration-1000">
-            <Cpu className="h-3.5 w-3.5" />
-            Neural Analysis Engine V3.0
-          </div>
-          
           <h1 className="text-7xl md:text-9xl font-headline font-bold leading-[0.9] mb-4 tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
             AI Voice <span className="text-primary italic">Detector</span>
           </h1>
