@@ -1,13 +1,21 @@
 import { 
   Lock, 
   FileJson, 
-  Info,
   Send,
-  Code
+  Code,
+  Copy
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
 
 export default function DocsPage() {
   const docsImage = PlaceHolderImages.find(img => img.id === 'api-docs');
@@ -16,103 +24,129 @@ export default function DocsPage() {
     <div className="container mx-auto px-4 pt-32 pb-12 max-w-4xl">
       <div className="space-y-16">
         <section id="introduction" className="text-center">
-          <h1 className="text-5xl font-headline font-bold text-primary mb-6">Echolyze API</h1>
+          <div className="flex justify-center mb-8">
+            <div className="bg-primary/10 p-4 rounded-3xl border border-primary/20">
+              <Code className="h-10 w-10 text-primary" />
+            </div>
+          </div>
+          <h1 className="text-5xl font-headline font-bold text-primary mb-6">ECHOLYZE API</h1>
           <p className="text-xl text-muted-foreground leading-relaxed mb-8 mx-auto max-w-2xl">
-            Integrate world-class voice forensic analysis into your application. Our Echolyze API provides real-time classification for audio authenticity, distinguishing between human speech and synthetic AI clones.
+            Integrate world-class voice forensic analysis into your application. Our API provides real-time classification for audio authenticity.
           </p>
-          {docsImage && (
-            <div className="relative aspect-video rounded-2xl overflow-hidden border shadow-sm mb-8 max-w-3xl mx-auto">
-              <Image 
-                src={docsImage.imageUrl} 
-                alt={docsImage.description} 
-                fill 
-                className="object-cover"
-                data-ai-hint={docsImage.imageHint}
-              />
-            </div>
-          )}
         </section>
 
-        <section id="authentication" className="space-y-6 max-w-2xl mx-auto">
-          <div className="flex items-center gap-3 justify-center">
-            <Lock className="h-8 w-8 text-accent" />
-            <h2 className="text-3xl font-headline font-bold text-primary">Authentication</h2>
-          </div>
-          <Card className="bg-primary text-primary-foreground border-none">
-            <CardContent className="p-6">
-              <p className="mb-4 text-center opacity-90 text-sm">All API requests must include the <code className="bg-white/10 px-2 py-1 rounded">x-api-key</code> header for validation.</p>
-              <div className="flex items-center justify-center bg-black/20 p-4 rounded-lg font-code text-accent-foreground select-all text-sm">
-                <span>x-api-key: echolyze_key_2026</span>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        <section id="endpoint" className="space-y-6 max-w-3xl mx-auto">
-          <div className="flex items-center gap-3 justify-center">
-            <Send className="h-8 w-8 text-accent" />
-            <h2 className="text-3xl font-headline font-bold text-primary">Analyze Endpoint</h2>
-          </div>
-          <div className="bg-secondary/20 p-4 rounded-xl border border-border/50 font-code text-sm flex items-center gap-4">
-            <span className="bg-primary px-2 py-1 rounded text-primary-foreground font-bold">POST</span>
-            <span className="text-muted-foreground">/api/analyze</span>
-          </div>
-          
-          <div className="grid gap-8 mt-10">
-            <div className="space-y-4">
-              <h3 className="text-xl font-headline font-bold flex items-center gap-2">
-                <Code className="h-5 w-5 text-accent" /> Request Body
-              </h3>
-              <div className="bg-black/90 rounded-xl p-8 font-code text-xs text-blue-300 overflow-x-auto shadow-2xl border border-white/5">
-                <pre>
-{`{
-  "audioDataUri": "data:audio/mp3;base64,...", // Required: Base64 audio string
-  "userSelectedLanguage": "English (US)"        // Optional: Manual language hint
-}`}
-                </pre>
-              </div>
+        <section id="endpoint" className="space-y-12">
+          {/* Request Section */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <Send className="h-6 w-6 text-primary" />
+              <h2 className="text-3xl font-headline font-bold">Request Body</h2>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-xl font-headline font-bold flex items-center gap-2">
-                <FileJson className="h-5 w-5 text-accent" /> Response Schema
-              </h3>
-              <div className="bg-black/90 rounded-xl p-8 font-code text-xs text-green-300 overflow-x-auto shadow-2xl border border-white/5">
-                <pre>
-{`{
-  "origin": "AI_GENERATED",         // [AI_GENERATED | HUMAN]
-  "confidence": 0.995,              // Float 0 to 1
-  "explanation": "...",             // Forensic classification reasoning
-  "detectedLanguage": "English",    // Primary detected language
-  "timestamp": "2026-05-15T..."     // ISO-8601 String
-}`}
-                </pre>
+            <Card className="bg-secondary/20 border-white/5 overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-white/5 bg-secondary/40">
+                    <TableHead className="font-bold text-primary">Field</TableHead>
+                    <TableHead className="font-bold">Type</TableHead>
+                    <TableHead className="font-bold">Description</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="border-white/5">
+                    <TableCell className="font-code text-accent font-bold">language</TableCell>
+                    <TableCell>string</TableCell>
+                    <TableCell className="text-muted-foreground">Tamil / English / Hindi / Malayalam / Telugu</TableCell>
+                  </TableRow>
+                  <TableRow className="border-white/5">
+                    <TableCell className="font-code text-accent font-bold">audioFormat</TableCell>
+                    <TableCell>string</TableCell>
+                    <TableCell className="text-muted-foreground">Always "mp3"</TableCell>
+                  </TableRow>
+                  <TableRow className="border-white/5">
+                    <TableCell className="font-code text-accent font-bold">audioBase64</TableCell>
+                    <TableCell>string</TableCell>
+                    <TableCell className="text-muted-foreground">Base64-encoded MP3 audio</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Card>
+
+            <div className="relative group">
+              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/10 hover:bg-white/20">
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-blue-300 shadow-2xl border border-white/5">
+                <pre>{`{
+  "language": "Tamil",
+  "audioFormat": "mp3",
+  "audioBase64": "SUQZBAAAAAAAI1RTUOUAA/..."
+}`}</pre>
               </div>
             </div>
           </div>
+
+          {/* Success Response */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl font-headline font-bold">Success Response</h2>
+            </div>
+            <div className="relative group">
+              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/10 hover:bg-white/20">
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-green-300 shadow-2xl border border-white/5">
+                <pre>{`{
+  "status": "success",
+  "language": "Tamil",
+  "classification": "AI_GENERATED",
+  "confidenceScore": 0.91,
+  "explanation": "Unnatural pitch consistency detected..."
+}`}</pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Error Response */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl font-headline font-bold">Error Response</h2>
+            </div>
+            <div className="relative group">
+              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/10 hover:bg-white/20">
+                  <Copy className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-red-300 shadow-2xl border border-white/5">
+                <pre>{`{
+  "status": "error",
+  "message": "Invalid API Key"
+}`}</pre>
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section id="errors" className="space-y-6 max-w-2xl mx-auto pb-20">
+        <section id="authentication" className="space-y-6 max-w-2xl mx-auto pb-20">
           <div className="flex items-center gap-3 justify-center">
-            <Info className="h-8 w-8 text-accent" />
-            <h2 className="text-3xl font-headline font-bold text-primary">Status Codes</h2>
+            <Lock className="h-6 w-6 text-primary" />
+            <h2 className="text-3xl font-headline font-bold">Authentication</h2>
           </div>
-          <div className="grid gap-4">
-            <div className="flex items-center justify-between p-4 bg-secondary/20 rounded-xl border border-border/50">
-              <span className="font-bold text-primary">200 OK</span>
-              <span className="text-sm text-muted-foreground">Analysis successfully completed</span>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-secondary/20 rounded-xl border border-border/50">
-              <span className="font-bold text-destructive">400 Bad Request</span>
-              <span className="text-sm text-muted-foreground">Missing audioDataUri in payload</span>
-            </div>
-            <div className="flex items-center justify-between p-4 bg-secondary/20 rounded-xl border border-border/50">
-              <span className="font-bold text-destructive">401 Unauthorized</span>
-              <span className="text-sm text-muted-foreground">Invalid or missing x-api-key header</span>
-            </div>
-          </div>
-        </section>
+          <p className="text-center text-muted-foreground text-sm">
+            All API requests must include your private <code className="bg-secondary px-2 py-1 rounded">x-api-key</code> header.
+          </p>
+        </Card>
       </div>
     </div>
   );
+}
+
+// Minimal Button component for the copy action since we can't import local UI easily in this block without full path
+function Button({ className, children, ...props }: any) {
+  return <button className={className} {...props}>{children}</button>;
 }

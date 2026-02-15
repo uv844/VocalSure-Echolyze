@@ -42,9 +42,9 @@ export default function HistoryPage() {
   };
 
   const filteredHistory = history.filter(item => 
-    item.fileName.toLowerCase().includes(search.toLowerCase()) ||
-    item.origin.toLowerCase().includes(search.toLowerCase()) ||
-    item.detectedLanguage.toLowerCase().includes(search.toLowerCase())
+    (item.fileName || '').toLowerCase().includes(search.toLowerCase()) ||
+    (item.classification || '').toLowerCase().includes(search.toLowerCase()) ||
+    (item.language || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -73,7 +73,7 @@ export default function HistoryPage() {
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input 
-                placeholder="Search by file name, origin, or language..." 
+                placeholder="Search by file name, classification, or language..." 
                 className="pl-10 h-12 bg-secondary/30"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -112,7 +112,7 @@ export default function HistoryPage() {
                           {new Date(item.timestamp).toLocaleString()}
                         </TableCell>
                         <TableCell>
-                          {item.origin === 'HUMAN' ? (
+                          {item.classification === 'HUMAN' ? (
                             <Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-green-200">
                               <CheckCircle2 className="h-3 w-3 mr-1" /> Human
                             </Badge>
@@ -123,10 +123,10 @@ export default function HistoryPage() {
                           )}
                         </TableCell>
                         <TableCell className="font-mono text-sm">
-                          {(item.confidence * 100).toFixed(1)}%
+                          {((item.confidenceScore || 0) * 100).toFixed(1)}%
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline">{item.detectedLanguage}</Badge>
+                          <Badge variant="outline">{item.language}</Badge>
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">

@@ -92,7 +92,11 @@ export default function DetectorPage() {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
+      reader.onload = () => {
+        const result = reader.result as string;
+        // Strip data URI prefix for the manual field but keep full URI for processing logic if needed
+        resolve(result);
+      };
       reader.onerror = (error) => reject(error);
     });
   };
@@ -114,11 +118,10 @@ export default function DetectorPage() {
 
   const handleAnalyze = async () => {
     if (!userApiKey) {
-      toast({ title: "API Key Required", description: "Please enter echolyze_key_2026", variant: "destructive" });
+      toast({ title: "API Key Required", description: "Please enter your Echolyze API key", variant: "destructive" });
       return;
     }
 
-    const audioDataUri = base64Input.startsWith('data:') ? base64Input : `data:audio/mp3;base64,${base64Input}`;
     setLoading(true);
     setResult(null);
 
@@ -126,10 +129,14 @@ export default function DetectorPage() {
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-api-key': userApiKey },
-        body: JSON.stringify({ audioDataUri, userSelectedLanguage: selectedLang })
+        body: JSON.stringify({ 
+          language: selectedLang,
+          audioFormat: 'mp3',
+          audioBase64: base64Input
+        })
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || data.error);
+      if (data.status === 'error') throw new Error(data.message || data.error);
       
       // Save to history
       const currentHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
@@ -165,7 +172,7 @@ export default function DetectorPage() {
                 <div className="relative">
                   <Input 
                     type={showApiKey ? "text" : "password"}
-                    placeholder="Enter echolyze_key_2026"
+                    placeholder="Enter your API key"
                     value={userApiKey}
                     onChange={(e) => setUserApiKey(e.target.value)}
                     className="bg-secondary/20 border-border/50 pr-10"
@@ -238,19 +245,19 @@ export default function DetectorPage() {
                 </div>
               ) : (
                 <div className="w-full space-y-6 animate-in fade-in duration-500">
-                  <div className={cn("p-6 rounded-2xl border-2 text-center", result.origin === 'AI_GENERATED' ? "border-destructive/30 text-destructive bg-destructive/5" : "border-primary/30 text-primary bg-primary/5")}>
+                  <div className={cn("p-6 rounded-2xl border-2 text-center", result.classification === 'AI_GENERATED' ? "border-destructive/30 text-destructive bg-destructive/5" : "border-primary/30 text-primary bg-primary/5")}>
                     <p className="text-[10px] uppercase font-bold tracking-widest mb-2 opacity-70">Result</p>
                     <div className="flex items-center justify-center gap-3">
-                      {result.origin === 'AI_GENERATED' ? <Bot className="h-8 w-8" /> : <User className="h-8 w-8" />}
-                      <p className="text-3xl font-bold">{result.origin === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}</p>
+                      {result.classification === 'AI_GENERATED' ? <Bot className="h-8 w-8" /> : <User className="h-8 w-8" />}
+                      <p className="text-3xl font-bold">{result.classification === 'AI_GENERATED' ? "AI GENERATED" : "HUMAN VOICE"}</p>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                       <span>Forensic Confidence</span>
-                      <span>{(result.confidence * 100).toFixed(1)}%</span>
+                      <span>{(result.confidenceScore * 100).toFixed(1)}%</span>
                     </div>
-                    <Progress value={result.confidence * 100} className="h-2" />
+                    <Progress value={result.confidenceScore * 100} className="h-2" />
                   </div>
                   <div className="bg-secondary/30 p-4 rounded-xl border border-border/50 text-sm">
                     <span className="font-bold text-foreground mr-2">Explanation:</span>
@@ -258,7 +265,7 @@ export default function DetectorPage() {
                   </div>
                   <div className="bg-secondary/20 p-3 rounded-xl border border-border/50">
                     <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Detected Language</p>
-                    <p className="font-semibold text-sm flex items-center gap-2"><Globe className="h-3 w-3 text-primary" />{result.detectedLanguage}</p>
+                    <p className="font-semibold text-sm flex items-center gap-2"><Globe className="h-3 w-3 text-primary" />{result.language}</p>
                   </div>
                 </div>
               )}
