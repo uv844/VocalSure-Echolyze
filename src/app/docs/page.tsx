@@ -29,6 +29,7 @@ export default function DocsPage() {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const fullEndpoint = "https://studio--studio-7772900131-b7e6c.us-central1.hosted.app/api/analyze";
+  const displayEndpoint = "/api/analyze";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(fullEndpoint);
@@ -83,7 +84,7 @@ export default function DocsPage() {
               <div className="flex items-center gap-4 overflow-hidden w-full">
                 <span className="bg-primary text-primary-foreground px-3 py-1 rounded-md text-xs font-bold uppercase shrink-0">POST</span>
                 <code className="text-accent font-code font-bold text-sm md:text-lg break-all">
-                  {fullEndpoint}
+                  {displayEndpoint}
                 </code>
               </div>
               <Button 
