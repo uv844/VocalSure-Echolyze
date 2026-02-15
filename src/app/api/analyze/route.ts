@@ -4,6 +4,18 @@ import { detectAudioLanguage } from '@/ai/flows/automated-language-detection-for
 
 const EXPECTED_API_KEY = 'echolyze_key_2026';
 
+/**
+ * GET handler to provide a status check for the API.
+ * Prevents 405 Method Not Allowed errors when the URL is accessed via browser.
+ */
+export async function GET() {
+  return NextResponse.json({
+    status: 'success',
+    message: 'Echolyze Forensic API is active. Please use POST with a valid x-api-key to analyze audio.',
+    docs: '/docs'
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     // 1. Validate internal Vocalsure API Key
