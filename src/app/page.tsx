@@ -101,7 +101,7 @@ export default function LandingPage() {
               href="/docs" 
               className="glass px-12 py-6 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all border-white/5"
             >
-              VocalSure API Docs
+              Echolyze API Docs
             </Link>
           </div>
         </div>
