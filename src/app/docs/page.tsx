@@ -6,7 +6,7 @@ import {
   FileX,
   ShieldAlert
 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { 
   Table, 
   TableBody, 
@@ -20,6 +20,7 @@ export default function DocsPage() {
   return (
     <div className="container mx-auto px-4 pt-32 pb-12 max-w-4xl">
       <div className="space-y-16">
+        {/* Introduction */}
         <section id="introduction" className="text-center">
           <div className="flex justify-center mb-8">
             <div className="bg-primary/10 p-4 rounded-3xl border border-primary/20">
@@ -32,12 +33,12 @@ export default function DocsPage() {
           </p>
         </section>
 
+        {/* Request Details */}
         <section id="endpoint" className="space-y-12">
-          {/* Request Section */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <Send className="h-6 w-6 text-primary" />
-              <h2 className="text-3xl font-headline font-bold">Request Body</h2>
+              <h2 className="text-3xl font-headline font-bold">Request Payload</h2>
             </div>
 
             <Card className="bg-secondary/20 border-white/5 overflow-hidden">
@@ -58,7 +59,7 @@ export default function DocsPage() {
                   <TableRow className="border-white/5">
                     <TableCell className="font-code text-accent font-bold">audioFormat</TableCell>
                     <TableCell>string</TableCell>
-                    <TableCell className="text-muted-foreground">Always "mp3"</TableCell>
+                    <TableCell className="text-muted-foreground">The format of the payload (Always "mp3")</TableCell>
                   </TableRow>
                   <TableRow className="border-white/5">
                     <TableCell className="font-code text-accent font-bold">audioBase64</TableCell>
@@ -69,25 +70,22 @@ export default function DocsPage() {
               </Table>
             </Card>
 
-            <div className="relative group">
-              <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-blue-300 shadow-2xl border border-white/5">
-                <pre>{`{
+            <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-blue-300 shadow-2xl border border-white/5">
+              <pre>{`{
   "language": "English (US)",
   "audioFormat": "mp3",
   "audioBase64": "SUQZBAAAAAAAI1RTUOUAA/..."
 }`}</pre>
-              </div>
             </div>
           </div>
 
-          {/* Success Response */}
+          {/* Response Details */}
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <h2 className="text-3xl font-headline font-bold">Success Response</h2>
             </div>
-            <div className="relative group">
-              <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-green-300 shadow-2xl border border-white/5">
-                <pre>{`{
+            <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-green-300 shadow-2xl border border-white/5">
+              <pre>{`{
   "status": "success",
   "language": "English (US)",
   "classification": "AI_GENERATED",
@@ -95,7 +93,6 @@ export default function DocsPage() {
   "explanation": "Forensic scan detected characteristic phase-alignment artifacts...",
   "timestamp": "2026-05-20T14:30:00Z"
 }`}</pre>
-              </div>
             </div>
           </div>
 
@@ -103,7 +100,7 @@ export default function DocsPage() {
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <AlertCircle className="h-6 w-6 text-destructive" />
-              <h2 className="text-3xl font-headline font-bold">API Errors</h2>
+              <h2 className="text-3xl font-headline font-bold">Error Codes</h2>
             </div>
             
             <div className="grid gap-4">
@@ -113,7 +110,7 @@ export default function DocsPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-foreground">401 Unauthorized</h3>
-                  <p className="text-sm text-muted-foreground">Invalid or missing <code className="text-accent">x-api-key</code> header. Ensure you are using the correct secret key.</p>
+                  <p className="text-sm text-muted-foreground">Invalid or missing <code className="text-accent">x-api-key</code> header. Access is denied.</p>
                 </div>
               </div>
 
@@ -123,7 +120,7 @@ export default function DocsPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-foreground">400 Bad Request</h3>
-                  <p className="text-sm text-muted-foreground">The request is missing the required <code className="text-accent">audioBase64</code> payload or contains malformed data.</p>
+                  <p className="text-sm text-muted-foreground">Required fields are missing or the audio payload is malformed.</p>
                 </div>
               </div>
 
@@ -132,25 +129,26 @@ export default function DocsPage() {
                   <ShieldAlert className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-foreground">500 Internal Server Error</h3>
-                  <p className="text-sm text-muted-foreground">An unexpected error occurred on our analysis engine. Please try again later.</p>
+                  <h3 className="font-bold text-foreground">500 Internal Error</h3>
+                  <p className="text-sm text-muted-foreground">An unexpected error occurred in the forensic analysis engine.</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* Authentication */}
         <section id="authentication" className="space-y-6 max-w-2xl mx-auto pb-20">
           <div className="flex items-center gap-3 justify-center">
             <Lock className="h-6 w-6 text-primary" />
             <h2 className="text-3xl font-headline font-bold">Authentication</h2>
           </div>
           <p className="text-center text-muted-foreground text-sm">
-            All API requests must include your private authentication header. Use the key provided in your dashboard.
+            All requests must include a private authentication header. Use your secret key in the request header below.
           </p>
           <div className="flex justify-center font-code text-xs">
-            <span className="bg-secondary px-4 py-2 rounded-full border border-white/5 text-muted-foreground">
-              Header: <span className="text-accent">x-api-key</span>
+            <span className="bg-secondary px-6 py-3 rounded-full border border-white/5 text-muted-foreground">
+              Header Key: <span className="text-accent font-bold">x-api-key</span>
             </span>
           </div>
         </section>
