@@ -6,6 +6,9 @@ import Navigation from '@/components/Navigation';
 export const metadata: Metadata = {
   title: 'VocalSure | AI Voice Detector',
   description: 'Forensic-grade audio analysis to distinguish between authentic human speech and AI-generated clones.',
+  icons: {
+    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none"><path d="M50 10 L85 25 V50 C85 75 50 90 50 90 C50 90 15 75 15 50 V25 L50 10Z" fill="%232E3192" stroke="white" stroke-width="2"/><path d="M35 50 H43 L48 38 L55 62 L59 50" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M65 45 L70 55 L80 35" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  },
 };
 
 export default function RootLayout({
