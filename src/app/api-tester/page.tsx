@@ -130,6 +130,16 @@ export default function DetectorPage() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || data.error);
+      
+      // Save to history
+      const currentHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
+      sessionStorage.setItem('echolyze_history', JSON.stringify([{
+        id: Date.now(),
+        fileName: file?.name || 'Manual Input',
+        timestamp: new Date().toISOString(),
+        ...data
+      }, ...currentHistory]));
+
       setResult(data);
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" });

@@ -1,9 +1,11 @@
 import { 
   Lock, 
   FileJson, 
-  Info
+  Info,
+  Send,
+  Code
 } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -46,21 +48,47 @@ export default function DocsPage() {
           </Card>
         </section>
 
-        <section id="schemas" className="space-y-6 max-w-2xl mx-auto">
+        <section id="endpoint" className="space-y-6 max-w-3xl mx-auto">
           <div className="flex items-center gap-3 justify-center">
-            <FileJson className="h-8 w-8 text-accent" />
-            <h2 className="text-3xl font-headline font-bold text-primary">Response Schema</h2>
+            <Send className="h-8 w-8 text-accent" />
+            <h2 className="text-3xl font-headline font-bold text-primary">Analyze Endpoint</h2>
           </div>
-          <div className="bg-black/90 rounded-xl p-8 font-code text-xs text-green-300 overflow-x-auto shadow-2xl">
-            <pre>
+          <div className="bg-secondary/20 p-4 rounded-xl border border-border/50 font-code text-sm flex items-center gap-4">
+            <span className="bg-primary px-2 py-1 rounded text-primary-foreground font-bold">POST</span>
+            <span className="text-muted-foreground">/api/analyze</span>
+          </div>
+          
+          <div className="grid gap-8 mt-10">
+            <div className="space-y-4">
+              <h3 className="text-xl font-headline font-bold flex items-center gap-2">
+                <Code className="h-5 w-5 text-accent" /> Request Body
+              </h3>
+              <div className="bg-black/90 rounded-xl p-8 font-code text-xs text-blue-300 overflow-x-auto shadow-2xl border border-white/5">
+                <pre>
+{`{
+  "audioDataUri": "data:audio/mp3;base64,...", // Required: Base64 audio string
+  "userSelectedLanguage": "English (US)"        // Optional: Manual language hint
+}`}
+                </pre>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-xl font-headline font-bold flex items-center gap-2">
+                <FileJson className="h-5 w-5 text-accent" /> Response Schema
+              </h3>
+              <div className="bg-black/90 rounded-xl p-8 font-code text-xs text-green-300 overflow-x-auto shadow-2xl border border-white/5">
+                <pre>
 {`{
   "origin": "AI_GENERATED",         // [AI_GENERATED | HUMAN]
   "confidence": 0.995,              // Float 0 to 1
-  "explanation": "...",             // Classification reasoning
+  "explanation": "...",             // Forensic classification reasoning
   "detectedLanguage": "English",    // Primary detected language
-  "timestamp": "2026-05-15T..."     // ISO String
+  "timestamp": "2026-05-15T..."     // ISO-8601 String
 }`}
-            </pre>
+                </pre>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -75,8 +103,12 @@ export default function DocsPage() {
               <span className="text-sm text-muted-foreground">Analysis successfully completed</span>
             </div>
             <div className="flex items-center justify-between p-4 bg-secondary/20 rounded-xl border border-border/50">
+              <span className="font-bold text-destructive">400 Bad Request</span>
+              <span className="text-sm text-muted-foreground">Missing audioDataUri in payload</span>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-secondary/20 rounded-xl border border-border/50">
               <span className="font-bold text-destructive">401 Unauthorized</span>
-              <span className="text-sm text-muted-foreground">Invalid API Key</span>
+              <span className="text-sm text-muted-foreground">Invalid or missing x-api-key header</span>
             </div>
           </div>
         </section>
