@@ -1,13 +1,10 @@
 import { 
   Lock, 
-  FileJson, 
   Send,
   Code,
   Copy
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Card, CardContent } from '@/components/ui/card';
 import { 
   Table, 
   TableBody, 
@@ -16,10 +13,9 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { Button } from '@/components/ui/button';
 
 export default function DocsPage() {
-  const docsImage = PlaceHolderImages.find(img => img.id === 'api-docs');
-
   return (
     <div className="container mx-auto px-4 pt-32 pb-12 max-w-4xl">
       <div className="space-y-16">
@@ -29,7 +25,7 @@ export default function DocsPage() {
               <Code className="h-10 w-10 text-primary" />
             </div>
           </div>
-          <h1 className="text-5xl font-headline font-bold text-primary mb-6">ECHOLYZE API</h1>
+          <h1 className="text-5xl font-headline font-bold text-primary mb-6 uppercase">ECHOLYZE API</h1>
           <p className="text-xl text-muted-foreground leading-relaxed mb-8 mx-auto max-w-2xl">
             Integrate world-class voice forensic analysis into your application. Our API provides real-time classification for audio authenticity.
           </p>
@@ -73,11 +69,6 @@ export default function DocsPage() {
             </Card>
 
             <div className="relative group">
-              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/10 hover:bg-white/20">
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
               <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-blue-300 shadow-2xl border border-white/5">
                 <pre>{`{
   "language": "Tamil",
@@ -94,11 +85,6 @@ export default function DocsPage() {
               <h2 className="text-3xl font-headline font-bold">Success Response</h2>
             </div>
             <div className="relative group">
-              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/10 hover:bg-white/20">
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
               <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-green-300 shadow-2xl border border-white/5">
                 <pre>{`{
   "status": "success",
@@ -117,11 +103,6 @@ export default function DocsPage() {
               <h2 className="text-3xl font-headline font-bold">Error Response</h2>
             </div>
             <div className="relative group">
-              <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/10 hover:bg-white/20">
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
               <div className="bg-black/80 rounded-2xl p-8 font-code text-sm text-red-300 shadow-2xl border border-white/5">
                 <pre>{`{
   "status": "error",
@@ -140,13 +121,8 @@ export default function DocsPage() {
           <p className="text-center text-muted-foreground text-sm">
             All API requests must include your private <code className="bg-secondary px-2 py-1 rounded">x-api-key</code> header.
           </p>
-        </Card>
+        </section>
       </div>
     </div>
   );
-}
-
-// Minimal Button component for the copy action since we can't import local UI easily in this block without full path
-function Button({ className, children, ...props }: any) {
-  return <button className={className} {...props}>{children}</button>;
 }

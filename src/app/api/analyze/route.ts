@@ -47,7 +47,8 @@ export async function POST(req: NextRequest) {
         timestamp: new Date().toISOString()
       });
     } catch (aiError: any) {
-      // 3. Advanced Forensic Simulation Fallback
+      // 3. Advanced Forensic Simulation Fallback (Simulation Mode)
+      // This allows the app to work even without a valid Gemini API key
       const hash = audioBase64.length;
       const isAI = hash % 2 === 0;
       const confidence = 0.92 + (hash % 70) / 1000;
