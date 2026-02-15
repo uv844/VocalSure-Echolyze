@@ -32,7 +32,7 @@ export default function RootLayout({
                 <span className="font-headline font-bold text-lg">VocalSure</span>
               </div>
               <div className="text-sm text-muted-foreground">
-                &copy; 2026 VocalSure
+                &copy; 2026 Echolyze
               </div>
               <div className="flex gap-8 text-xs font-bold uppercase tracking-widest text-muted-foreground/50">
                 <a href="#" className="hover:text-primary transition-colors">Privacy</a>
