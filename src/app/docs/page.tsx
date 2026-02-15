@@ -35,7 +35,7 @@ export default function DocsPage() {
           </p>
         </section>
 
-        {/* Authentication - Shifted to the top */}
+        {/* Authentication */}
         <section id="authentication" className="space-y-6 max-w-2xl mx-auto py-10 border-y border-white/5">
           <div className="flex items-center gap-3 justify-center">
             <Lock className="h-6 w-6 text-primary" />
@@ -124,8 +124,7 @@ export default function DocsPage() {
   "language": "English (US)",
   "classification": "AI_GENERATED",
   "confidenceScore": 0.96,
-  "explanation": "Forensic scan detected characteristic phase-alignment artifacts...",
-  "timestamp": "2026-05-20T14:30:00Z"
+  "explanation": "Forensic scan detected characteristic phase-alignment artifacts..."
 }`}</pre>
             </div>
           </div>

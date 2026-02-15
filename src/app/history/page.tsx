@@ -92,7 +92,7 @@ export default function HistoryPage() {
                   <TableHeader className="bg-secondary/50">
                     <TableRow>
                       <TableHead>File Name</TableHead>
-                      <TableHead>Timestamp</TableHead>
+                      <TableHead>Timestamp (IST)</TableHead>
                       <TableHead>Classification</TableHead>
                       <TableHead>Confidence</TableHead>
                       <TableHead>Language</TableHead>
@@ -109,7 +109,11 @@ export default function HistoryPage() {
                           </div>
                         </TableCell>
                         <TableCell className="text-muted-foreground text-xs">
-                          {new Date(item.timestamp).toLocaleString()}
+                          {new Date(item.timestamp).toLocaleString('en-IN', {
+                            timeZone: 'Asia/Kolkata',
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                          })}
                         </TableCell>
                         <TableCell>
                           {item.classification === 'HUMAN' ? (

@@ -94,7 +94,6 @@ export default function DetectorPage() {
       reader.readAsDataURL(file);
       reader.onload = () => {
         const result = reader.result as string;
-        // Strip data URI prefix for the manual field but keep full URI for processing logic if needed
         resolve(result);
       };
       reader.onerror = (error) => reject(error);
@@ -138,7 +137,7 @@ export default function DetectorPage() {
       const data = await response.json();
       if (data.status === 'error') throw new Error(data.message || data.error);
       
-      // Save to history
+      // Save to history with an internal timestamp for project use
       const currentHistory = JSON.parse(sessionStorage.getItem('echolyze_history') || '[]');
       sessionStorage.setItem('echolyze_history', JSON.stringify([{
         id: Date.now(),

@@ -43,8 +43,7 @@ export async function POST(req: NextRequest) {
         language: languageResult.detectedLanguage,
         classification: originResult.origin,
         confidenceScore: originResult.confidence,
-        explanation: originResult.explanation,
-        timestamp: new Date().toISOString()
+        explanation: originResult.explanation
       });
     } catch (aiError: any) {
       // 3. Advanced Forensic Simulation Fallback (Simulation Mode)
@@ -69,8 +68,7 @@ export async function POST(req: NextRequest) {
         language: language || "English (US)",
         classification: isAI ? 'AI_GENERATED' : 'HUMAN',
         confidenceScore: confidence,
-        explanation: `[SIMULATION] ${isAI ? aiExplanations[hash % aiExplanations.length] : humanExplanations[hash % humanExplanations.length]}`,
-        timestamp: new Date().toISOString()
+        explanation: `[SIMULATION] ${isAI ? aiExplanations[hash % aiExplanations.length] : humanExplanations[hash % humanExplanations.length]}`
       });
     }
   } catch (error: any) {
