@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Zap, Globe, Lock, ShieldCheck, Activity, Cpu, Gauge } from 'lucide-react';
+import { ArrowRight, Globe, ShieldCheck, Activity, Gauge } from 'lucide-react';
 import AudioVisualizer from '@/components/AudioVisualizer';
 
 const IndiaFlag = () => (
