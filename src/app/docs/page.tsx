@@ -35,6 +35,22 @@ export default function DocsPage() {
           </p>
         </section>
 
+        {/* Authentication - Shifted to the top */}
+        <section id="authentication" className="space-y-6 max-w-2xl mx-auto py-10 border-y border-white/5">
+          <div className="flex items-center gap-3 justify-center">
+            <Lock className="h-6 w-6 text-primary" />
+            <h2 className="text-3xl font-headline font-bold">Authentication</h2>
+          </div>
+          <p className="text-center text-muted-foreground text-sm">
+            All requests must include a private authentication header. Use your secret key in the request header below to authorize your analysis requests.
+          </p>
+          <div className="flex justify-center font-code text-xs">
+            <span className="bg-secondary px-6 py-3 rounded-full border border-white/5 text-muted-foreground">
+              Header Key: <span className="text-accent font-bold">x-api-key</span>
+            </span>
+          </div>
+        </section>
+
         {/* Endpoint Details */}
         <section id="endpoint" className="space-y-12">
           <div className="space-y-6">
@@ -115,7 +131,7 @@ export default function DocsPage() {
           </div>
 
           {/* Error Definitions */}
-          <div className="space-y-6">
+          <div className="space-y-6 pb-20">
             <div className="flex items-center gap-3">
               <AlertCircle className="h-6 w-6 text-destructive" />
               <h2 className="text-3xl font-headline font-bold">Error Codes</h2>
@@ -152,22 +168,6 @@ export default function DocsPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Authentication */}
-        <section id="authentication" className="space-y-6 max-w-2xl mx-auto pb-20">
-          <div className="flex items-center gap-3 justify-center">
-            <Lock className="h-6 w-6 text-primary" />
-            <h2 className="text-3xl font-headline font-bold">Authentication</h2>
-          </div>
-          <p className="text-center text-muted-foreground text-sm">
-            All requests must include a private authentication header. Use your secret key in the request header below.
-          </p>
-          <div className="flex justify-center font-code text-xs">
-            <span className="bg-secondary px-6 py-3 rounded-full border border-white/5 text-muted-foreground">
-              Header Key: <span className="text-accent font-bold">x-api-key</span>
-            </span>
           </div>
         </section>
       </div>
